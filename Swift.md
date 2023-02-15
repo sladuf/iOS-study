@@ -18,7 +18,10 @@ OR value type이 메모리에 저장되는 방식
 > ### Codable에 대하여 설명하시오.
 > ### Hashable 프로토콜에 대해서 설명해보세요. 
 > ### Hashable 프로토콜을 채택하는 커스텀 타입이 Equtable도 채택해야하는 이유가 무엇인가요?
+> ### Hashable이 무엇이고, Equatable을 왜 상속해야 하는지 설명하시오.
 > ### 열거형도 Hashable을 채택했을 때 자동으로 Hashable하게 만들 수 있나요?
+> ### Codable과 NSCoding의 차이는?
+> ### associatedType이 무엇인지 설명해주세요.
 
 ## 클로저
 > ### Closure에 대하여 설명하시오.
@@ -56,6 +59,8 @@ OR value type이 메모리에 저장되는 방식
 > ### mutating 키워드에 대해 설명하시오.
 > ### lazy 에 대해 설명하시오.
 > ### some 키워드에 대해 설명하시오.
+> ### typealias 가 무엇인지 말해주세요.
+> ### required 키워드에 대해서 설명해보세요. 
 
 
 ## 접근제어자
@@ -80,48 +85,47 @@ OR value type이 메모리에 저장되는 방식
 > ### 고차함수 중 flatMap과 compactMap의 차이를 설명해보세요.
 > ### Protocol Oriented Programming과 Object Oriented Programming의 차이점을 설명하시오.
 
+## function / method
+> ### instance 메서드와 class 메서드의 차이점을 설명하시오.
+> ### class 메서드와 static 메서드의 차이점을 설명하시오.
+> ### function과 method의 차이를 말해보세요. 
+> ### inout은 언제 사용하면 좋을까요?
+> ### defer란 무엇인지 설명하시오.
+> ### defer가 호출되는 순서는 어떻게 되고, defer가 호출되지 않는 경우를 설명하시오.
+
+## 프로퍼티
+> ### 연산 프로퍼티와 클로저를 가지는 저장 프로퍼티의 차이를 설명해보세요. 
+> ### property wrapper에 대해서 설명하시오.
+> ### Swift Property 종류에 대해 설명해주세요
+
 ***
 
 ### Subscripts에 대해 설명하시오.
 ### String은 왜 subscript로 접근이 안되는지 설명하시오.
-### instance 메서드와 class 메서드의 차이점을 설명하시오.
 
-### class 메서드와 static 메서드의 차이점을 설명하시오.
 
-### Hashable이 무엇이고, Equatable을 왜 상속해야 하는지 설명하시오.
-
-### function과 method의 차이를 말해보세요. 
-
-### inout은 언제 사용하면 좋을까요?
-
-### 연산 프로퍼티와 클로저를 가지는 저장 프로퍼티의 차이를 설명해보세요. 
 
 ### as? 와 as! 차이를 설명해보세요. 
-### typealias 가 무엇인지 말해주세요.
 
-### associatedType이 무엇인지 설명해주세요.
 
 ### Generic이 무엇이고 어떻게 동작하는지 설명해주세요.
 
-### property wrapper에 대해서 설명하시오.
+
 
 ### Generic에 대해 설명하시오.
 
 ### Result타입에 대해 설명하시오.
 
-### defer란 무엇인지 설명하시오.
 
-### defer가 호출되는 순서는 어떻게 되고, defer가 호출되지 않는 경우를 설명하시오.
 
 ### 스위프트에서 추상 클래스를 만들려면 어떻게 해야할까요? 
 
-### Codable과 NSCodong의 차이는?
+
 
 ### Subscription에 대해서 설명해주세요.
 
-### Swift Property 종류에 대해 설명해주세요
 
-### required 키워드에 대해서 설명해보세요. 
+
 
 ### Self와 self의 차이가 뭘까요?
 
