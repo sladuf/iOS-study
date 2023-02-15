@@ -26,14 +26,15 @@ Apple 가이드라인에서 다음 조건 중 하나 이상에 해당한다면 �
 - 연관된 간단한 값의 집합을 캡슐화하는 목적일 때
 - 프로퍼티가 값 타입이고 참조보다 복사하는 것이 합당할 때
 - 상속할 필요가 없을 때
+
 즉, 상속 관계를 필요로 하거나 객체의 값이 계속 가공되는경우에는 class가 더 유리합니다
 
 > ### 💁🏻‍♂️ 1-2 : Swift의 복사 방법에 대해서 설명해 주세요
 
 1. swift는 COW방식을 사용해서 값타입을 복사합니다
 2. COW는 원본과 복사본 중 수정되기 전까지는 복사를 하지 않고 **원본 리소스를 공유**하다가, 둘 중 하나에서 수정이 일어나는 경우 복사하는 작업을 합니다
-3. 모든 value type에서 사용되는 것이 아니라 **collection type**을 복사할 때 사용됩니다
-4. 그래서 COW를 사용하는 타입에서 복사 후 첫번째 수정이 일어나는 경우에는 COW에 의해 약간의 오버헤드를 발생시킵니다
+3. 그래서 COW를 사용하는 타입에서 복사 후 첫번째 수정이 일어나는 경우에는 COW에 의해 약간의 오버헤드를 발생시킵니다
+4. 모든 value type에서 사용되는 것이 아니라 **collection type**을 복사할 때 사용됩니다
 
 ```
 📌 리소스 공유
@@ -54,15 +55,18 @@ Array, Set, Dictionary
 
 - [https://forestjae.tistory.com/30](https://forestjae.tistory.com/30)
 
+# 여기부터 
 
 
+> ### 💁🏻‍♂️ 1-3 : class의 성능을 향상 시킬 수 있는 방법을 설명해주세요
+- final, WMO
+- [https://babbab2.tistory.com/145?category=828998](https://babbab2.tistory.com/145?category=828998)
 
 
-+ enum
-> ### class의 성능을 향상 시킬수 있는 방법들을 설명해주세요
-== final 키워드 왜 쓰나요 (vtable 개념 포함)
+> ### 💁🏻‍♂️ 1-4 : upcasting과 downcasting의 차이
 
-> ### Any와 AnyObject의 차이
+
+> ### enum
 
 
 ## 프로토콜
@@ -84,6 +88,7 @@ Array, Set, Dictionary
 > > ### Closure 와 Escpaing Closure 에 대한 설명해주세요
 
 ## 데이터타입
+> ### Any와 AnyObject의 차이
 > ### AnyObject에 대해 설명하시오.
 > ### Optional 이란 무엇인지 설명하시오.
 > ### Optional은 내부적으로 어떻게 구현되어 있나요?
@@ -184,7 +189,7 @@ Array, Set, Dictionary
 
 ### @objc는 언제 사용하나요?
 
-### Swift의 upcasting과 downcasting의 차이
+
 
 ### autoclosure attribute에 대해서 설명해보세요. 
 
