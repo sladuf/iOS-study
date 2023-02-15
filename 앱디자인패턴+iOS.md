@@ -192,7 +192,7 @@ https://github.com/apple/swift/blob/d1c87f3c936c41418ee93320e42d523b3fhttps://ve
 
 2. 예를 들어 함수 내에서 객체의 값을 변경해줬다고 했을 때, **함수가 할 일을 마치고 스택에서 pop 되어도 변경된 객체의 값은 유지되어야 합니다.** 그래서 스택과 별도로 객체 데이터를 저장하기 위해서 힙이 필요합니다.
 
-
+https://velog.io/@heyksw/Kotlin-Object%EC%99%80-Class
 
 ***
 
