@@ -151,13 +151,48 @@ https://velog.io/@k7120792/Model-View-ViewModel-Pattern#%EC%9E%A5%EC%A0%90
 
 > ### 💁🏻‍♂️ 6-5 : weak 과 unowned 를 비교 설명해주세요
 
-1. weak 과 unowned 는 모두 reference count 를 증가시키지 않습니다.
+1. unowned 는 **객체를 직접** 가리키지만, weak 는 **side table 을 거쳐서** 객체를 가리킵니다.
 
-2. ...
+2. 그렇기 때문에 unowned 키워드를 사용할 경우, strong reference count == 0 이 되어버리면 **dangling pointer** 가 되어버리기 때문에 **인스턴스의 해제 시점을 예민하게 고려**해줘야 합니다.
+
+3. weak 는 weak reference 를 증가시키고 unowned 는 unowned reference 를 증가시킵니다.
+
+> **💁🏻‍♂️ 그러면 side table 이 무엇이고 reference count 종류에 대해 자세히 설명해보실래요**
+
+1. **reference count 에는 3가지 종류**가 있습니다. strong / unowned / weak. HeapObject struct 내부에서는 이 3가지에 대한 rc 들을 모두 카운팅합니다.
+
+2. strong rc == 0 이 되면 인스턴스가 **deinit** 상태가 됩니다. 이는 메모리가 dealloc 된 상태는 아닙니다.
+
+3. unowned rc == 0 이 되면 **dealloc** 상태가 되어 완전히 메모리에서 해제됩니다.
+
+4. dealloc 이 되었어도 weak rc != 0 이라면 side table 이 메모리에 남아있습니다. 이를 **freed** 상태라고 합니다. 
+
+5. weak rc == 0 이 된다면 비로소 객체는 완전히 죽어 **DEAD** 상태가 됩니다.
+
+6. **side table** 은 HeapObject 에서 **weak rc 를 관리하기 위해 별도로 생성된 자료구조** 입니다. weak 참조를 하게 되면 자동으로 side table 이 생성됩니다.
+
+7. side table 은 Swift4 이전의 **좀비 오브젝트 문제**를 해결하기 위해 도입되었습니다.
+
+> **💁🏻‍♂️ 좀비 오브젝트가 뭔데요?**
+
+1. strong rc == 0 이지만 weak rc > 0 일 경우, 메모리에서 완전한 해제가 일어나지 않은 오브젝트를 말합니다.
+
+2. 런타임에 weak reference 를 통해서 좀비 오브젝트가 해제 될 수 있지만 비효율적입니다.
+
+https://babbab2.tistory.com/27
+https://jeonyeohun.tistory.com/373
+https://linux-studying.tistory.com/34
+https://velog.io/@rnfxl92/Strong-Weak-Unowned
+https://sihyungyou.github.io/iOS-side-table/
+https://github.com/apple/swift/blob/d1c87f3c936c41418ee93320e42d523b3fhttps://velog.io/@wonhee010/Zeroing-Object-Life-Cycle
 
 > ### 💁🏻‍♂️ 6-6 : 메모리를 힙과 스택으로 나누는 이유는 무엇일까요?
 
-https://babbab2.tistory.com/27
+1. 스택은 이미 할당된 공간을 사용하는 것이기 때문에 빠르고, 힙은 동적 할당을 해서 pointer 로 접근을 합니다. 
+
+2. 예를 들어 함수 내에서 객체의 값을 변경해줬다고 했을 때, **함수가 할 일을 마치고 스택에서 pop 되어도 변경된 객체의 값은 유지되어야 합니다.** 그래서 스택과 별도로 객체 데이터를 저장하기 위해서 힙이 필요합니다.
+
+
 
 ***
 
@@ -297,6 +332,292 @@ NSCache 동작 방법. 어디에 저장되나요?
  Run Loops에 대해 설명하시오.
  오토레이아웃을 코드로 작성하는 방법은 무엇인가? (3가지)
  멀티 쓰레드로 동작하는 앱을 작성하고 싶을 때 고려할 수 있는 방식들을 설명하시오.
+
+
+***
+
+# 🍎 Swift 언어
+
+## 18. Class / Struct
+
+## 19. 프로토콜
+
+### Class 와 Struct 차이. 예를 들어서 자세히 설명.
+
+### Closure 와 Escpaing Closure 에 대한 설명해주세요
+
+### struct와 class와 enum의 차이를 설명하시오.
+
+### class의 성능을 향상 시킬수 있는 방법들을 나열해보시오.
+
+### final 키워드 왜 쓰나요
+
+- vtable 개념
+
+### Copy On Write는 어떤 방식으로 동작하는지 설명하시오.
+
+### Convenience init에 대해 설명하시오.
+
+### AnyObject에 대해 설명하시오.
+
+### Optional 이란 무엇인지 설명하시오.
+
+### Struct 가 무엇이고 어떻게 사용하는지 설명하시오.
+
+### Subscripts에 대해 설명하시오.
+
+### String은 왜 subscript로 접근이 안되는지 설명하시오.
+
+### instance 메서드와 class 메서드의 차이점을 설명하시오.
+
+### class 메서드와 static 메서드의 차이점을 설명하시오.
+
+### 프로토콜이란 무엇인지 설명하시오.
+
+### Protocol Oriented Programming과 Object Oriented Programming의 차이점을 설명하시오.
+
+### Hashable이 무엇이고, Equatable을 왜 상속해야 하는지 설명하시오.
+
+### mutating 키워드에 대해 설명하시오.
+
+### Extension에 대해 설명하시오.
+
+### Extension 내부에서 함수를 override할 수 있는지 설명하시오.
+
+### 접근 제어자의 종류엔 어떤게 있는지 설명하시오.
+
+### let과 var의 차이는 무엇인가요?
+- https://github.com/jeonyeohun/Getting-Ready-For-Interview/blob/main/iOS-Swift/swift.md
+
+### function과 method의 차이를 말해보세요. 
+
+### Enum에서 raw value와 associated value에 대해 설명해보세요.
+
+### inout은 언제 사용하면 좋을까요?
+
+### 연산 프로퍼티와 클로저를 가지는 저장 프로퍼티의 차이를 설명해보세요. 
+
+### lazy 에 대해 설명하시오.
+
+### as? 와 as! 차이를 설명해보세요. 
+### typealias 가 무엇인지 말해주세요.
+
+### associatedType이 무엇인지 설명해주세요.
+
+### Generic이 무엇이고 어떻게 동작하는지 설명해주세요.
+
+### Optional은 내부적으로 어떻게 구현되어 있나요?
+
+### Swift에서 참조 타입을 말해보세요.
+### property wrapper에 대해서 설명하시오.
+
+### Generic에 대해 설명하시오.
+
+### some 키워드에 대해 설명하시오.
+
+### Result타입에 대해 설명하시오.
+
+### Codable에 대하여 설명하시오.
+
+### Closure에 대하여 설명하시오.
+
+### Closure 의 값 캡처에 대해 설명하시오.
+
+### defer란 무엇인지 설명하시오.
+
+### defer가 호출되는 순서는 어떻게 되고, defer가 호출되지 않는 경우를 설명하시오.
+
+### Closure와 함수와의 관계에 대해 설명하시오.
+
+### Swift Standard Library의 map, filter, reduce, compactMap, flatMap에 대하여 설명하시오.
+
+### Hashable 프로토콜에 대해서 설명해보세요. 
+
+### Hashable 프로토콜을 채택하는 커스텀 타입이 Equtable도 채택해야하는 이유가 무엇인가요?
+
+### 열거형도 Hashable을 채택했을 때 자동으로 Hashable하게 만들 수 있나요?
+
+### open과 public 키워드의 차이를 설명해보세요.
+- https://github.com/jeonyeohun/Getting-Ready-For-Interview/blob/main/iOS-Swift/swift.md
+
+### fileprivate을 설명하고 언제 사용하면 좋을지 이야기해보세요.
+
+### fileprivate과 private의 차이를 설명해보세요. 
+
+### static func 와 class func의 차이를 설명해보세요. 
+
+### Function과 Closure의 차이
+
+### 스위프트에서 추상 클래스를 만들려면 어떻게 해야할까요? 
+
+### Any와 AnyObject의 차이
+
+### 언제 클래스 대신 구조체를 사용하면 좋을까요? 
+
+### 언제 구조체 대신 클래스를 선택해야할까요? 
+
+### weak과 unowned 의 차이를 설명하고 예를 들어주세요.
+
+### unowned는 언제 사용하는 것이 안전할까요?
+
+### Codable과 NSCodong의 차이는?
+
+### COW를 직접 구현한다면 어떻게 구현할 것인지?
+
+### Subscription에 대해서 설명해주세요.
+
+### Swift Property 종류에 대해 설명해주세요
+
+### strong, weak, unowned reference는 각각 언제 사용할까요? 
+
+### Array, Set, Dictionary의 차이점이 뭘까요? 
+
+### required 키워드에 대해서 설명해보세요. 
+
+### Self와 self의 차이가 뭘까요?
+
+### Array보다 Set을 사용하는게 더 좋을 때는 언제일까요?
+
+### Trailing Closure에 대해서 설명해보세요. 
+
+### @objc는 언제 사용하나요?
+
+### deinit은 언제 사용할까요? 
+
+### weak만 사용하지 않고 unowned도 사용하는 이유가 무엇을까요?
+
+### Swift의 upcasting과 downcasting의 차이
+
+### autoclosure attribute에 대해서 설명해보세요. 
+
+### 고차함수 중 flatMap과 compactMap의 차이를 설명해보세요.
+### Extension은 메서드를 Override 할 수 있을까요?
+### Never 반환 타입에 대해 설명해보세요.
+
+***
+
+
+
+
+
+
+## 🍏 UIKit 프레임워크
+
+### Bounds 와 Frame 차이점
+
+### Frame과 AutoLayout 속도 차이
+
+### CGFloat과 Float의 차이
+
+### 모든 View Controller 객체의 상위 클래스는 무엇이고 그 역할은 무엇인가?
+
+### 자신만의 Custom View를 만들려면 어떻게 해야하는지 설명하시오.
+
+### View 객체에 대해 설명하시오.
+
+### UIView 에서 Layer 객체는 무엇이고 어떤 역할을 담당하는지 설명하시오.
+
+### UIWindow 객체의 역할은 무엇인가?
+
+### UINavigationController 의 역할이 무엇인지 설명하시오.
+
+### TableView를 동작 방식과 화면에 Cell을 출력하기 위해 최소한 구현해야 하는 DataSource 메서드를 설명하시오.
+
+### 하나의 View Controller 코드에서 여러 TableView Controller 역할을 해야 할 경우 어떻게 구분해서 구현해야 하는지 설명하시오.
+
+### setNeedsLayout와 setNeedsDisplay의 차이에 대해 설명하시오.
+
+### stackView의 장점과 단점에 대해서 설명하시오.
+
+### NSCache와 딕셔너리로 캐시를 구성했을때의 차이를 설명하시오.
+
+### URLSession에 대해서 설명하시오.
+
+### prepareForReuse에 대해서 설명하시오.
+
+
+
+### ViewController의 생명주기를 설명하시오.
+
+### TableView와 CollectionView의 차이점을 설명하시오.
+
+### UIKit 클래스들을 다룰 때 꼭 처리해야하는 애플리케이션 쓰레드 이름은 무엇인가?
+
+### 뷰의 위치나 크기를 재조정하려면 어떻게 해야하나요?
+
+### Foundation Kit은 무엇이고 포함되어 있는 클래스들은 어떤 것이 있는지 설명하시오.
+
+
+
+***
+
+
+
+
+
+
+## 🍎 RxSwift 관련
+
+### RxSwift 를 왜 썼고 장단점이 뭐가 있나요
+
+- Reactive Programming 
+
+### RxSwift 와 Combine 차이 알고 있나요
+
+### Subject의 종류와 차이점에 대해 설명하시오.
+
+### Subject와 Driver의 차이를 설명하시오.
+
+### Single, Completable, Maybe의 차이점에 대해 설명하고, 언제 적용하면 좋을지 설명하시오.
+
+### RxCocoa 를 쓸 때 장점? 어떤 경험을 했나요
+
+ 
+### Observable 과 Subject 의 차이를 설명해주세요
+
+### Reactive Programming이 무엇인지 설명하시오.
+
+### RxSwift를 왜 사용하는지 설명하시오.
+
+### RxSwift의 단점을 설명하시오.
+
+### RxSwift에서 Hot Observable과 Cold Observable의 차이를 설명하시오.
+
+### Subject의 종류와 차이점에 대해 설명하시오.
+
+### Subject와 Driver의 차이를 설명하시오.
+
+### Single, Completable, Maybe의 차이점에 대해 설명하고, 언제 적용하면 좋을지 설명하시오.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
