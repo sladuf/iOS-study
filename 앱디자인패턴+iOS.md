@@ -244,13 +244,157 @@ https://babbab2.tistory.com/26
 
 ## 8. Delegate 패턴
 
- Delegate 패턴 설명해주세요
- Delegate 패턴과 Escaping Closure 둘다 데이터를 전달할 수 있는데 각각 어떤 상황에 좋을까요?
- Delegate Pattern과 Notification의 동작 방식의 차이에 대해 설명하세요.
- Delegate 패턴을 활용하는 경우를 예를 들어 설명하시오.
- Delegate란 무엇인지 설명하고, retain 되는지 안되는지 그 이유를 함께 설명하시오.
- NotificationCenter 동작 방식과 활용 방안에 대해 설명하시오.
- Singleton 패턴을 활용하는 경우를 예를 들어 설명하시오.
+> ### 💁🏻‍♂️ 8-1 :  Delegate 패턴에 대해 설명해주세요
+
+1. Delegate 패턴은 어떤 객체가 해야 하는 일을 부분적으로 **확장해서 구체적으로 대신 처리**하게 합니다.
+
+2. 프로토콜에 정의된 내용을 누군가 대신해주길 바라며 떠넘깁니다 (delegating). 그리고 일을 위임받은 자 (delegated) 는 delegate = self 해서 그 일을 구체적으로 대신해줍니다.
+
+3. 델리게이트 패턴을 사용함으로써 **느슨한 결합**을 가질 수 있습니다. **프로토콜을 만족하기만 하면** 그 누구든 일을 대신해줘도 상관 없다는 뜻인데, 이는 요구 사항이 변경될 경우 작업을 매우 쉽게 수정할 수 있다는 뜻과도 같습니다. **다른 객체로 교체해도 잘 동작**하는 코드를 짤 수 있습니다.
+
+4. 그리고 델리게이트 패턴은 **책임 분리를 촉진**합니다. 기능을 위임할 수 있는 객체가 있다는 것은 그만큼 **현재 객체에서 책임할 부분이 적어진다**는 뜻이기 때문입니다.
+
+- 애초에 여기서 예를 들어버려서 설명해도 좋을 것 같다. ex) UITextViewDelegate
+
+```swift
+// 날 수 있는 새.
+protocol Bird {
+    func fly()
+}
+// 날아다니는 걸 보여주는 서커스.
+class Circus {
+    // 누구든 좋으니 날 수 있는 놈 아무나 날아봐. 해줘 ~
+    // 누군가 날아주길 기대하며 떠넘긴다. (delegating)
+    var delegate: Bird?
+    
+    func showFlying() {
+        // 독수리인지 비둘기인지는 중요치 않아. 걍 아무나 날기만 해줘.
+        delegate?.fly()
+    }
+}
+// 독수리
+class Eagle: Bird {
+    init(circus: Circus) {
+        // 내가 날아줄게 (delegated)
+        circus.delegate = self
+    }
+    
+    func fly() {
+        print("쌔애앵")
+    }
+}
+
+// 비둘기
+class Pigeon: Bird {
+    init(circus: Circus) {
+        // 내가 날아줄게 (delegated)
+        circus.delegate = self
+    }
+    
+    func fly() {
+        print("구구구")
+    }
+}
+
+var someCircus = Circus()
+var somePigeon = Pigeon(circus: someCircus)
+
+// 만약 참새라는 클래스가 새로 생겨서 들어와도 좋아. 코드 수정이 필요가 없으니까.
+someCircus.showFlying()
+
+
+```
+
+https://velog.io/@heyksw/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-24
+
+***
+
+> ### 💁🏻‍♂️ 8-2 : Delegate 패턴을 활용하는 경우를 예를 들어 설명해주세요.
+
+1. **UITextViewDelegate** 의 textViewDidBeginEditing(). 텍스트 뷰의 편집을 감지하는 메서드
+
+2. **UIScollViewDelegate** 의 viewDidScroll(). 스크롤 감지. offset 리턴
+
+3. **UICollectionViewDelegate** 의 didSelectItemAt. 셀이 선택되었음을 감지.
+
+```swift
+// 예를 들어 이런식으로 사용된다.
+
+class MyViewController: UIViewController, UITextViewDelegate {
+    var myTextView = UITextView()
+    let placeholder: String = "입력해주세요."
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        myTextView.delegate = self
+    }
+    
+	// textview에 focus를 얻는 경우
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if myTextView.text == placeholder {
+            myTextView.text = nil
+            myTextView.textColor = .black
+        }
+    }
+}
+
+// 그리고 UITextView 클래스를 까보면 다음과 같이 delgate 변수가 있다.
+@available(iOS 2.0, *)
+open class UITextView : UIScrollView, UITextInput, UIContentSizeCategoryAdjusting {
+...    
+    weak open var delegate: UITextViewDelegate?
+...
+
+// 즉 myTextView 가 delegating 한 것이고(= Circus), 
+// MyViewController 가 delegated 된 것이다(= Eagle)
+// MyViewController 는 UITextViewDelegate 를 채택했기 때문에 위임받은 일을 할 수 있다.
+// myTextView 에서 UITextViewDelegate 가 하는 일을 확장시키고 싶었고,
+// 그 확장한 일을 MyViewController 에서 받아, 대신 처리한 것이다.
+```
+
+***
+
+> ### 💁🏻‍♂️ 8-3 :  Delegate 패턴과 Escaping Closure 둘다 데이터를 전달할 수 있는데 각각 어떤 상황에 좋을까요?
+
+1. Delegate 패턴은 프로토콜을 사용하기 때문에 좀더 엄격하게 행동을 규정할 수 있습니다.
+
+2. Delegate 패턴은 중간에 쓰레드가 교체되지 않고 Escaping Closure 는 쓰레드가 교체됩니다. 따라서 쓰레드가 교체되지 않는 것을 바란다면 Delegate 패턴을 쓰는 것이 좋습니다. (컨설팅 때 들은 내용인데 구글링 해도 못찾겠음)
+
+https://shoveller.tistory.com/entry/Delegate-vs-Block-vs-Notification-vs-KVO
+
+***
+
+> ### 💁🏻‍♂️ 8-4 : Delegate Pattern과 Notification의 동작 방식의 차이에 대해 설명 해주세요.
+
+1. **Delegate 패턴은 다른 객체의 인스턴스를 내부적으로 보유하여 그 인스턴스를 활용**하는 방식으로 동작하며, **Notification 은 객체를 Observing** 하는 방식으로 동작합니다.
+
+2. **Notification 은 싱글턴**으로 되어있기 때문에 **화면간의 거리가 먼 경우에 유리**하고, **보다 다수의 객체들에게 이벤트를 전달하는 데에 유용**합니다.
+
+3. 하지만 다른사람이 NotificationCenter 로 구현된 옵저버 패턴을 봤을 때, **정확히 어떤 객체들이 구독했는지 파악하기 까다롭습니다. **
+
+4. Delegate 를 사용할 경우 다른 사람이 봤을 때 코드를 더 직관적으로 이해하기 좋습니다.
+
+https://neph3779.github.io/ios/DelegateVsNotification/
+
+https://velog.io/@hayeon/Delegates%EC%99%80-Notification-%EB%B0%A9%EC%8B%9D%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90%EC%97%90-%EB%8C%80%ED%95%B4-%EC%84%A4%EB%AA%85%ED%95%98%EC%8B%9C%EC%98%A4#delegate-notification-%EB%B9%84%EA%B5%90
+
+***
+
+> ### 💁🏻‍♂️ 8-5 : NotificationCenter 동작 방식과 활용 방안에 대해 설명해주세요.
+
+1. 이벤트가 발생했다는 것을 싱글턴 NotificationCenter 에 쏩니다.
+
+2. NotiCenter 가 등록된 객체들에게 모두 이벤트를 보내줍니다.
+
+***
+
+> ### 💁🏻‍♂️ 8-6 : Singleton 패턴을 활용하는 경우를 예를 들어 설명해주세요.
+
+1. 싱글턴은 앱 주기동안 오직 하나의 인스턴스를 생성하고 앱 전체 객체들이 알게하는 패턴입니다.
+
+2. 앱 뷰의 뎁스가 깊은 곳에서 데이터 전달을 끌고 가야 하는 경우, Delegate 패턴으로 계속해서 뷰 간에 전달하기는 까다롭기 때문에 싱글턴을 사용합니다.
+
+2. NotificationCenter 에서 옵저버 패턴을 위해 싱글턴을 사용합니다.
 
 ***
 
@@ -332,4 +476,5 @@ NSCache 동작 방법. 어디에 저장되나요?
  Run Loops에 대해 설명하시오.
  오토레이아웃을 코드로 작성하는 방법은 무엇인가? (3가지)
  멀티 쓰레드로 동작하는 앱을 작성하고 싶을 때 고려할 수 있는 방식들을 설명하시오.
+
 
