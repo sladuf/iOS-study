@@ -76,7 +76,7 @@
 3. 그래서 MVVM 패턴 에서는 View 와 ViewController 를 묶어 'View'로 간주합니다. MVVM 의 목표는 뷰 로직과 비즈니스 로직을 분리하는 것이고, 이는 테스팅 및 유지 보수에 더 유리한 패턴이 됩니다. 
 
 
-https://velog.io/@eddy_song/ios-mvc
+- https://velog.io/@eddy_song/ios-mvc
 
 
 ***
@@ -103,7 +103,7 @@ https://velog.io/@eddy_song/ios-mvc
 - View 와 Model 사이의 결합성은 해결했지만, 이로 인해 View 와 Presenter 사이의 결합성이 생겼다.
 ```
 
-https://ykss.netlify.app/web/design_pattern/
+- https://ykss.netlify.app/web/design_pattern/
 
 ***
 
@@ -119,7 +119,7 @@ https://ykss.netlify.app/web/design_pattern/
 
 2. 약속되어있기 때문에 아예 다른 사람이 처음 코드를 보게 되더라도, 디자인 패턴에 대한 이해만 있다면 수월하게 코드를 이해할 수 있습니다.
 
-https://velog.io/@k7120792/Model-View-ViewModel-Pattern#%EC%9E%A5%EC%A0%90
+- https://velog.io/@k7120792/Model-View-ViewModel-Pattern#%EC%9E%A5%EC%A0%90
 
 ***
 
@@ -179,12 +179,13 @@ https://velog.io/@k7120792/Model-View-ViewModel-Pattern#%EC%9E%A5%EC%A0%90
 
 2. 런타임에 weak reference 를 통해서 좀비 오브젝트가 해제 될 수 있지만 비효율적입니다.
 
-https://babbab2.tistory.com/27
-https://jeonyeohun.tistory.com/373
-https://linux-studying.tistory.com/34
-https://velog.io/@rnfxl92/Strong-Weak-Unowned
-https://sihyungyou.github.io/iOS-side-table/
-https://github.com/apple/swift/blob/d1c87f3c936c41418ee93320e42d523b3fhttps://velog.io/@wonhee010/Zeroing-Object-Life-Cycle
+- https://babbab2.tistory.com/27
+- https://jeonyeohun.tistory.com/373
+- https://linux-studying.tistory.com/34
+- https://velog.io/@rnfxl92/Strong-Weak-Unowned
+- https://sihyungyou.github.io/iOS-side-table/
+- https://github.com/apple/swift/blob/d1c87f3c936c41418ee93320e42d523b3f
+- https://velog.io/@wonhee010/Zeroing-Object-Life-Cycle
 
 > ### 💁🏻‍♂️ 6-6 : 메모리를 힙과 스택으로 나누는 이유는 무엇일까요?
 
@@ -192,7 +193,7 @@ https://github.com/apple/swift/blob/d1c87f3c936c41418ee93320e42d523b3fhttps://ve
 
 2. 예를 들어 함수 내에서 객체의 값을 변경해줬다고 했을 때, **함수가 할 일을 마치고 스택에서 pop 되어도 변경된 객체의 값은 유지되어야 합니다.** 그래서 스택과 별도로 객체 데이터를 저장하기 위해서 힙이 필요합니다.
 
-https://velog.io/@heyksw/Kotlin-Object%EC%99%80-Class
+- https://velog.io/@heyksw/Kotlin-Object%EC%99%80-Class
 
 ***
 
@@ -237,8 +238,8 @@ https://velog.io/@heyksw/Kotlin-Object%EC%99%80-Class
 
 2. GC는 **런타임에 Mark-and-Sweep** 방식으로 모든 인스턴스를 체크합니다. 따라서 순환참조가 발생하더라도 메모리를 해제할 수 있습니다.
 
-https://sujinnaljin.medium.com/ios-arc-%EB%BF%8C%EC%8B%9C%EA%B8%B0-9b3e5dc23814
-https://babbab2.tistory.com/26
+- https://sujinnaljin.medium.com/ios-arc-%EB%BF%8C%EC%8B%9C%EA%B8%B0-9b3e5dc23814
+- https://babbab2.tistory.com/26
 
 ***
 
@@ -305,7 +306,7 @@ someCircus.showFlying()
 
 ```
 
-https://velog.io/@heyksw/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-24
+- https://velog.io/@heyksw/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-24
 
 ***
 
@@ -360,7 +361,7 @@ open class UITextView : UIScrollView, UITextInput, UIContentSizeCategoryAdjustin
 
 2. Delegate 패턴은 중간에 쓰레드가 교체되지 않고 Escaping Closure 는 쓰레드가 교체됩니다. 따라서 쓰레드가 교체되지 않는 것을 바란다면 Delegate 패턴을 쓰는 것이 좋습니다. (컨설팅 때 들은 내용인데 구글링 해도 못찾겠음)
 
-https://shoveller.tistory.com/entry/Delegate-vs-Block-vs-Notification-vs-KVO
+- https://shoveller.tistory.com/entry/Delegate-vs-Block-vs-Notification-vs-KVO
 
 ***
 
@@ -374,9 +375,9 @@ https://shoveller.tistory.com/entry/Delegate-vs-Block-vs-Notification-vs-KVO
 
 4. Delegate 를 사용할 경우 다른 사람이 봤을 때 코드를 더 직관적으로 이해하기 좋습니다.
 
-https://neph3779.github.io/ios/DelegateVsNotification/
+- https://neph3779.github.io/ios/DelegateVsNotification/
 
-https://velog.io/@hayeon/Delegates%EC%99%80-Notification-%EB%B0%A9%EC%8B%9D%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90%EC%97%90-%EB%8C%80%ED%95%B4-%EC%84%A4%EB%AA%85%ED%95%98%EC%8B%9C%EC%98%A4#delegate-notification-%EB%B9%84%EA%B5%90
+- https://velog.io/@hayeon/Delegates%EC%99%80-Notification-%EB%B0%A9%EC%8B%9D%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90%EC%97%90-%EB%8C%80%ED%95%B4-%EC%84%A4%EB%AA%85%ED%95%98%EC%8B%9C%EC%98%A4#delegate-notification-%EB%B9%84%EA%B5%90
 
 ***
 
@@ -392,18 +393,70 @@ https://velog.io/@hayeon/Delegates%EC%99%80-Notification-%EB%B0%A9%EC%8B%9D%EC%9
 
 1. 싱글턴은 앱 주기동안 오직 하나의 인스턴스를 생성하고 앱 전체 객체들이 알게하는 패턴입니다.
 
-2. 앱 뷰의 뎁스가 깊은 곳에서 데이터 전달을 끌고 가야 하는 경우, Delegate 패턴으로 계속해서 뷰 간에 전달하기는 까다롭기 때문에 싱글턴을 사용합니다.
+2. **뷰의 거리가 먼 곳 or 뎁스 차이가 많이 나는 곳에서 데이터 전달을 끌고 가야 하는 경우**, Delegate 패턴으로 계속해서 뷰 간에 전달하기는 까다롭기 때문에 싱글턴을 사용합니다.
 
-2. NotificationCenter 에서 옵저버 패턴을 위해 싱글턴을 사용합니다.
+2. **NotificationCenter** 에서 옵저버 패턴을 위해 싱글턴을 사용합니다.
 
 ***
 
-## 9. 스토리보드 vs 코드베이스
+## 9. KVC / KVO
 
-> ### 스토리보드와 코드베이스의 차이를 설명해주세요
+> ### 💁🏻‍♂️ : KVC 와 KVO 에 대해 설명해주세요.
+
+1. **KVC 는 Key Value Coding.** 객체의 값을 직접 사용하지 않고, Key Path를 이용해 간접적으로 사용하고 수정하는 방식입니다.
+
+2. **KVO 는 Key Value Observing.** Key로 등록한 변수를 관찰하며 값이 변할때마다 어떠한 동작을 수행하는 것입니다. 프로퍼티 옵저버 willSet didSet 과 매우 유사하게 동작합니다.
+
+> 💁🏻‍♂️ : 그럼 프로퍼티 옵저버와 KVO의 차이점은 무엇인가요?
+
+- **프로퍼티 옵저버는 타입 내부에서 선언**하지만, **KVO 는 타입 정의 밖에서 observe 를 추가**합니다.
+
+- willSet didSet 은 본인이 직접 타입을 만드는 경우에 구현해줄 수 있겠지만, **다른 사람 혹은 외부 라이브러리에서 정의한 타입이라면** 내부 소스를 마음대로 변경할 수 없습니다.
+
+- 이럴때는 KVO 방식을 사용해서 옵저빙을 할 수 있습니다.
+
+
+```swift
+// KVC
+struct A {
+    var data = "Data"
+}
+ 
+var aInstance = A()
+print(aInstance[keyPath: \.data]) // Data
+print(aInstance.data) // Data
+aInstance[keyPath: \.data] = "Data2"
+print(aInstance[keyPath: \.data]) // Data2
+ 
+let key = \A.data
+print(aInstance[keyPath: key]) // Data2
+
+
+// KVO
+class Obj: NSObject {
+    @objc dynamic var data = "Data"
+}
+ 
+let obj = Obj()
+let observer = obj.observe(\.data, options: [.new, .old]) { _, changeInfo in
+    print("\(changeInfo.oldValue) has been changed to \(changeInfo.newValue)")
+}
+ 
+obj.data = "Data2"
+// Optional("Data") has been changed to Optional("Data2")
+```
+
 ***
 
-## 10. 앱 상태
+## 10. 스토리보드 vs 코드베이스
+
+> ### 💁🏻‍♂️ : 스토리보드와 코드베이스의 차이를 설명해주세요
+
+- 스토리보드를 사용하면 **눈에 보이는 직관적인 개발**을 할 수 있지만, 코드베이스로 UI를 개발했을 때보다 **코드 직관성이 떨어져서 협업에 불편함**을 느낄 수 있습니다.
+
+***
+
+## 11. 앱 상태
 
  앱이 시작할 때 main.c 에 있는 UIApplicationMain 함수에 의해서 생성되는 객체는 무엇인가?
  @Main에 대해서 설명하시오.
@@ -416,12 +469,12 @@ https://velog.io/@hayeon/Delegates%EC%99%80-Notification-%EB%B0%A9%EC%8B%9D%EC%9
  다크모드를 지원하는 방법에 대해 설명하시오.
 
 ***
-## 11. Cocoa Touch
+## 12. Cocoa Touch
 
  Cocoa Framework와 Cocoa Touch Framework의 차이
 
 ***
-## 12. GCD
+## 13. GCD
  NSOperationQueue 와 GCD Queue 의 차이점을 설명하시오.
  GCD API 동작 방식과 필요성에 대해 설명하시오.
  Global DispatchQueue 의 Qos 에는 어떤 종류가 있는지, 각각 어떤 의미인지 설명하시오.
@@ -429,7 +482,7 @@ https://velog.io/@hayeon/Delegates%EC%99%80-Notification-%EB%B0%A9%EC%8B%9D%EC%9
  GCD의 Barrier에 대해 설명해주세요.
 
 ***
-## 13. Dispatch Queue
+## 14. Dispatch Queue
 
  Dispatch Queue의 Serial Queue에 대해서 설명해보세요.
  DispatchQueue.main.async 와 DispatchQueue.main.sync 의 차이
@@ -440,7 +493,7 @@ https://velog.io/@hayeon/Delegates%EC%99%80-Notification-%EB%B0%A9%EC%8B%9D%EC%9
 
 ***
 
-## 14. 함수형 프로그래밍
+## 15. 함수형 프로그래밍
 
  순수함수란 무엇인지 설명하시오.
  함수형 프로그래밍이 무엇인지 설명하시오.
@@ -448,7 +501,7 @@ https://velog.io/@hayeon/Delegates%EC%99%80-Notification-%EB%B0%A9%EC%8B%9D%EC%9
  1급 객체(혹은 1급 시민)에 대해서 설명해보세요. Swift에는 어떤 1급 객체들이 있나요?
 
 ***
-## 15. 캐싱
+## 16. 캐싱
 
  Kingfisher 설명, 장점
  라이브러리를 안쓰고 캐시 직접 구현 어떻게 할까요
@@ -456,12 +509,7 @@ https://velog.io/@hayeon/Delegates%EC%99%80-Notification-%EB%B0%A9%EC%8B%9D%EC%9
 NSCache 동작 방법. 어디에 저장되나요?
 
 ***
-## 16. KVC / KVO
 
- KVC에 대해서 설명해보세요.
- KVO에 대해서 설명해보세요.
-
-***
 
 ## 17. 추가 개념
 
