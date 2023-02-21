@@ -583,29 +583,111 @@ obj.data = "Data2"
 ***
 ## 12. Cocoa Touch
 
- Cocoa Framework와 Cocoa Touch Framework의 차이
+> ### 💁🏻‍♂️ : Cocoa Framework와 Cocoa Touch Framework의 차이를 설명해주세요.
+
+- Cocoa Framework 는 macOS 의 애플리케이션 개발에 사용되고, Cocoa Touch Framework 는 iOS 의 앱개발에 사용됩니다.
+
+- 아이폰, 아이패드는 터치 기반의 기기이기 때문에 코코아 터치입니다.
+
+- Cocoa Touch 에는 Foundation 과 UIKit 프레임워크가 포함됩니다.
+
+- https://velog.io/@heyksw/iOS-iOS-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B3%84%EC%B8%B5%EA%B5%AC%EC%A1%B0
+
 
 ***
 ## 13. GCD
- NSOperationQueue 와 GCD Queue 의 차이점을 설명하시오.
- GCD API 동작 방식과 필요성에 대해 설명하시오.
- Global DispatchQueue 의 Qos 에는 어떤 종류가 있는지, 각각 어떤 의미인지 설명하시오.
- GCD의 QoS에 대해서 설명해보세요.
- GCD의 Barrier에 대해 설명해주세요.
 
-***
-## 14. Dispatch Queue
+> ### 💁🏻‍♂️ 13-1: NSOperationQueue 와 GCD Queue 의 차이점을 설명하시오.
 
- Dispatch Queue의 Serial Queue에 대해서 설명해보세요.
- DispatchQueue.main.async 와 DispatchQueue.main.sync 의 차이
- DispatchGroup에 대해서 설명해보세요. 
- DispatchWorkItem의 장점이 무엇인가요?
- OperationQueue에 대해서 설명해보세요. DispatchQueue와는 어떤 것이 다른가요?
- DispatchSemaphore를 사용하는 상황을 설명해주세요.
+1. **iOS 에서 멀티스레딩을 할 수 있는 방법은 크게 Operation 과 GCD** 가 있습니다.
+
+2. GCD (Grand Central Dispatch) 는 C 기반, Operation 은 Objective-C 기반으로, **GCD 가 상대적으로 더 가볍습니다.**
+
+3. NSOperationQueue 에서는 KVO 가 사용가능하지만 GCD 에서는 사용불가 합니다.
+
+- https://thoonk.tistory.com/30
 
 ***
 
-## 15. 함수형 프로그래밍
+> ### 💁🏻‍♂️ 13-2 : GCD API 동작 방식과 필요성에 대해 설명하시오.
+
+1. **GCD 란 iOS 에서 멀티 스레딩**을 하기 위해 지원하는 API 입니다. 개발자는 해야할 작업들을 GCD 의 큐에 넘겨주기만 하면 OS 레벨에서 비동기 처리를 도와줍니다.
+
+2. GCD 에서는 여러가지 형식의 큐를 지원합니다.
+
+  - **Serial Queue** : 분산시킨 작업을 단 한개의 스레드에서 처리하는 큐. 주어진 시간에 하나의 작업만 순차적으로 수행.
+  
+  - **Concurrent Queue** : 분산시킨 작업을 여러개의 스레드에서 처리하는 큐. 주어진 시간에 여러 작업 수행 가능.
+  
+  - **Sync Queue** : 큐에 추가된 작업이 종료될때까지 기다리는 큐.
+  
+  - **Async Queue** : 큐에 추가된 작업을 종료될때까지 기다리지 않는 큐.
+
+  - **Main Queue** : 메인 스레드 Serial 큐. UI 작업을 담당합니다.
+  
+  - **Global Queue** : 전체 시스템에 의해 공유되는 Concurrent Queue. UI가 아닌 작업을 수행합니다.
+  
+  - **Custom Queue** : 개발자가 직접 생성하는 큐. (Serial / Concurrent)
+  
+  - Sync vs Async : 작업을 보내는 시점에서 기다릴지 말지 기다리는 것
+  
+  - Serial vs Concurrent : 큐로 보내진 작업들을 한개의 스레드로 순차처리 할 것인지, 여러 스레드에 보내 순서상관없이 처리할 것인지.
+
+- https://furang-note.tistory.com/37
+- https://sujinnaljin.medium.com/ios-%EC%B0%A8%EA%B7%BC%EC%B0%A8%EA%B7%BC-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-gcd-4-a621eca0a1d2
+
+  ***
+
+> ### 💁🏻‍♂️ 13-3 : Dispatch Queue의 Serial Queue에 대해서 설명해보세요.
+
+- Concurrent Queue 와 다르게, 동시에 여러개의 작업을 수행하지 않고, 순차적으로 하나의 작업만 수행하는 큐입니다. iOS 의 Main Queue 가 Serial Queue 입니다.
+
+***
+ 
+> ### 💁🏻‍♂️ 13-4 :  DispatchQueue.main.async 와 DispatchQueue.main.sync 의 차이
+
+- 메인 큐는 시리얼 큐이고, UI 작업 흐름이 계속해서 수행되어야 하기 때문에 async 를 통해서 다른 작업을 추가하는 것이 좋습니다.
+
+- **메인 큐에서 sync 를 사용하면 데드락이 발생**하는데 그 이유는 다음과 같습니다.
+
+1. 메인 쓰레드에서 일을하다가 sync 블럭 "X"를 만나서 메인 시리얼 큐에 X 를 보냅니다. 그리고 sync 이기 때문에 이 "X" 가 끝나기만을 바라보는 상태로 들어갑니다.
+
+2. 이제 디스패치 큐는 이 X를 처리해줄 스레드를 찾는 것이 책임인데, 어차피 메인 큐는 메인 쓰레드에게 일을 시켜야 합니다.
+
+3. 메인 쓰레드는 아까 X 작업을 큐에 보내주면서 "나는 널 기다릴래" 라고 했는데 메인 큐가 다시 일을 시키려고 하는 상황입니다.
+
+4. 그래서 서로가 원하는 작업을 수행하지 못해 데드락이 발생합니다.
+
+- https://limjs-dev.tistory.com/106
+
+***
+
+> ### 💁🏻‍♂️ 13-5 : Global DispatchQueue 의 Qos 에는 어떤 종류가 있는지, 각각 어떤 의미인지 설명하시오.
+
+- Qos 는 디스패치 큐의 우선순위를 부여하는 것입니다. 
+
+- userInteractive > userInitiated > default > utility > background 순으로 우선순위가 높습니다.
+
+- (솔직히 5개의 우선순위가 있다는 것 정도만 알아두면 될듯)
+
+- https://jcsoohwancho.github.io/2019-10-09-DispatchQueue%EC%9D%98Qos/
+
+***
+> ### 💁🏻‍♂️ 13-6 : DispatchGroup에 대해서 설명해보세요.
+
+
+
+> ### 💁🏻‍♂️ 13-7 : DispatchSemaphore를 사용하는 상황을 설명해주세요.
+
+
+
+> ### 💁🏻‍♂️ 13-8 : GCD의 Barrier에 대해 설명해주세요.
+
+
+
+***
+
+## 14. 함수형 프로그래밍
 
  순수함수란 무엇인지 설명하시오.
  함수형 프로그래밍이 무엇인지 설명하시오.
@@ -613,7 +695,7 @@ obj.data = "Data2"
  1급 객체(혹은 1급 시민)에 대해서 설명해보세요. Swift에는 어떤 1급 객체들이 있나요?
 
 ***
-## 16. 캐싱
+## 15. 캐싱
 
  Kingfisher 설명, 장점
  라이브러리를 안쓰고 캐시 직접 구현 어떻게 할까요
@@ -623,7 +705,7 @@ NSCache 동작 방법. 어디에 저장되나요?
 ***
 
 
-## 17. 추가 개념
+## 16. 추가 개념
 
 의존성 주입에 대하여 설명하시오.
 모듈화란 무엇이고 왜 하나요
