@@ -458,15 +458,127 @@ obj.data = "Data2"
 
 ## 11. 앱 상태
 
- 앱이 시작할 때 main.c 에 있는 UIApplicationMain 함수에 의해서 생성되는 객체는 무엇인가?
- @Main에 대해서 설명하시오.
- 앱이 foreground에 있을 때와 background에 있을 때 어떤 제약사항이 있나요?
- 상태 변화에 따라 다른 동작을 처리하기 위한 앱델리게이트 메서드들을 설명하시오.
- App delegate에 대해 설명하시오.
- scene delegate에 대해 설명하시오.
- App의 Not running, Inactive, Active, Background, Suspended에 대해 설명하시오.
- App Bundle의 구조와 역할에 대해 설명하시오.
- 다크모드를 지원하는 방법에 대해 설명하시오.
+> ### 💁🏻‍♂️ 11-1 : 앱이 시작할 때 main.c 에 있는 UIApplicationMain 함수에 의해서 생성되는 객체는 무엇인가요?
+
+1. iOS 앱은 Objective-C 기반으로 돌아가기 때문에 앱은 main 함수에서 시작됩니다.
+
+2. main() 함수는 UIKit 내부에 숨겨져 있습니다. 그리고 main() 함수 내부에서 UIApplicationMain 함수를 실행합니다.
+
+3. 그리고 **UIApplication** 이라는 객체를 생성합니다.
+
+4. **UIApplication** 은 실행중인 앱을 제어하는 핵심 객체이고, 모든 앱은 단 하나의 UIApplication 인스턴스를 가집니다.
+
+5. UIApplication.shared 로 접근할 수 있습니다.
+
+6. UIApplication 인스턴스가 생성된 뒤에는 info.plist 파일을 읽어 파일에 기록된 정보를 참고해서 필요한 데이터를 로드합니다.
+
+- https://hyun083.tistory.com/85
+- https://blog.naver.com/PostView.naver?blogId=soojin_2604&logNo=222423840595&parentCategoryNo=&categoryNo=&viewDate=&isShowPopularPosts=false&from=postView
+
+***
+ 
+> ### 💁🏻‍♂️ 11-2 : @main에 대해서 설명하시오.
+
+1. **@main 은 프로그램의 진입점**을 나타내고 주로 AppDelegate 에서 사용합니다.
+
+2. UIKit 내부에는 프로그램 시작점인 main() 함수가 숨겨져 있는데, 이 @main 어노테이션을 사용함으로써 진입점을 나타냅니다.
+
+3. Swift5.4 이전에서는 @main 대신에 **@UIApplicationMain** 키워드를 사용했는데, 이는 struct 에서는 사용하기 어려운 구조였기 때문에 class 와 struct 를 모두 커버 가능한 @main 을 사용하게 되었습니다.
+
+- https://green1229.tistory.com/265
+
+> ### 💁🏻‍♂️ 11-3 : App의 LifeCycle 에 대해 설명하시오.
+
+- **Unattached** : 앱이 실행되지 않은 상태. 메모리에 올라오지 않은 상태.
+
+- **Foreground** : 앱이 화면에 보여지는 상태로, CPU를 포함한 시스템 리소스를 우선적으로 사용합니다.
+
+- 그리고 Foreground 상태는 InActive 상태와 Active 상태로 나눌 수 있습니다.
+
+  - **Active** : 앱이 실행 중이고 이벤트를 받을 수 있는 상태
+  
+  - **InActive** : 앱이 실행 중이지만 전화나 알림에 의해 이벤트 입력을 멈추고 잠시 비활성화 된 상태
+
+- **Background** : 앱이 화면을 점유하지 않지만 동작은 하고 있는 상태. 예를 들어 백그라운드에서 음악을 실행하는 상황
+
+- **Suspend** : 백그라운드에서 활동을 멈춘 상태. 메모리에 올라는 가있습니다. 메모리가 부족한 상황이 생기면 Suspend 상태의 앱을 메모리에서 내리고 메모리 공간을 확보합니다.
+
+- https://developer.apple.com/documentation/uikit/app_and_environment/managing_your_app_s_life_cycle
+
+- https://co-dong.tistory.com/62
+
+***
+
+> ### 💁🏻‍♂️ 11-4 : 앱이 foreground에 있을 때와 background에 있을 때 어떤 제약사항이 있나요?
+
+- **Foreground** 상태는 앱이 실행되어 유저에게 보여지는 상태이고, 메모리 및 시스템 리소스를 효율적으로 사용해야 한다는 조건을 가집니다.
+
+- **Background** 상태는 앱이 화면에 띄워져있지는 않지만 뒤에서 실행되고 있는 상태입니다. 제약사항으로는 사용자의 이벤트를 받을 수 없고, 메모리를 가능한 조금만 차지해야 한다는 특징이 있습니다.
+
+***
+
+> ### 💁🏻‍♂️ 11-5 : 상태 변화에 따라 다른 동작을 처리하기 위한 앱델리게이트 메서드들을 설명하시오.
+
+- **didFinishLaunching** : 앱을 메모리에 올리고, 앱을 실행할 준비를 마쳤을 때 호출합니다.
+
+- 그 외 라이프 사이클에 대한 메서드 들이 있습니다.
+
+- **applicationDidBecomeActive** : Active 상태가 됐을 때 호출
+
+- **applicationWillResignActive** : InActive 상태가 되려할 때 호출
+
+- **applicationDidEnterBackground** : Background 상태가 됐을 때 호출
+
+등등이 있습니다.
+
+- https://developer.apple.com/documentation/uikit/uiapplicationdelegate
+
+***
+
+> ### 💁🏻‍♂️ 11-6 : UIWindow 에 대해 설명하시오.
+
+1. **UIWindow 는 UIView 들을 담는 컨테이너**입니다. 
+
+2. **UIWindow 의 코드를 열어보면, UIView 를 상속받고 있다**는 것을 알 수 있습니다. 
+
+3. 이에 UIWindow 도 결국에는 일종의 뷰이지만, UIView 들을 액자처럼 담고 있는 컨테이너 뷰라고 생각 할 수 있습니다.
+
+4. **iOS 12 까지는 window** 의 개념을 사용했지만 **iOS 13부터는 scene** 의 개념이 이를 대체하게 되었습니다.
+
+- https://zeddios.tistory.com/283
+- https://velog.io/@dev-lena/iOS-AppDelegate%EC%99%80-SceneDelegate
+
+***
+
+> ### 💁🏻‍♂️ 11-7 : AppDelegate와 SceneDelegate 에 대해 설명하시오.
+
+- **iOS 12까지는 대부분 하나의 앱이 하나의 window** 를 가졌지만, **iOS 13 부터는 window의 개념이 scene으로 대체**됐고, **하나의 앱에서 여러 개의 scene**을 가질 수 있게 되었습니다.
+
+1. 예전에는 **AppDelegate 가 Process LifeCycle 과 UI LifeCycle 을 모두 담당**했었지만, **SceneDelegate 가 등장하면서 UI LifeCycle 의 책임**을 옮겨 받게 되었습니다.
+
+2. 그리고 AppDelegate 는 모든 scene 의 정보를 관리하는 **Scene Session** 을 관리하게 되었습니다. (scene configuration)
+
+3. (여기 설명이 좋음) https://velog.io/@dev-lena/iOS-AppDelegate%EC%99%80-SceneDelegate
+ 
+***
+
+> ### 💁🏻‍♂️ 11-8 :  App Bundle의 구조와 역할에 대해 설명하시오.
+
+1. **앱 번들은 앱의 성공적인 빌드를 위한 것들을 저장**합니다.
+
+2. Info.plist , 실행파일 , 소스파일 등을 저장합니다.
+
+3. Info plist 안에는 앱 버전, 번들 id, 권한 요청 메시지 등 여러가지 앱 메타 데이터를 저장합니다.
+ 
+ ***
+ 
+> ### 💁🏻‍♂️ 11-9 :  다크모드를 지원하는 방법에 대해 설명하시오.
+ 
+1. **Xcode 의 Color Assets** 에서 Color Set 로 **다크 모드인 경우 색상과 라이트 모드인 경우 색상을 함께 등록**합니다.
+
+2. 다크모드를 아예 사용하고 싶지 않다면 info plist 에서 설정해줄 수 있습니다.
+
+- https://gyuios.tistory.com/120
 
 ***
 ## 12. Cocoa Touch
