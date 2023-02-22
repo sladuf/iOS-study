@@ -664,7 +664,7 @@ obj.data = "Data2"
 
 > ### 💁🏻‍♂️ 13-5 : Global DispatchQueue 의 Qos 에는 어떤 종류가 있는지, 각각 어떤 의미인지 설명하시오.
 
-- Qos 는 디스패치 큐의 우선순위를 부여하는 것입니다. 
+- **Qos 는 디스패치 큐의 우선순위를 부여하는 것**입니다. 
 
 - userInteractive > userInitiated > default > utility > background 순으로 우선순위가 높습니다.
 
@@ -675,15 +675,113 @@ obj.data = "Data2"
 ***
 > ### 💁🏻‍♂️ 13-6 : DispatchGroup에 대해서 설명해보세요.
 
+- **여러개로 분배된 작업들을 하나로 그룹지어서 한번에 파악**하고 싶을 때 Dispatch Group 을 사용합니다.
 
+- 즉 그룹안에 있는 작업들 중 마지막으로 끝난 작업의 시점에 초점을 둡니다.
+
+![](https://velog.velcdn.com/images/heyksw/post/4afc91b2-a786-498a-8f3f-c1dadd7cc2ba/image.png)
+
+
+
+```swift
+let group = DispatchGroup()
+queue1.async(group: group) {
+    for i in 0...5 {
+        print(i)
+    }
+}
+queue2.async(group: group) {
+    for i in 100...105 {
+        print(i)
+    }
+}
+let queueForGroup = DispatchQueue(label: "q", attributes: .concurrent)
+group.notify(queue: queueForGroup) {
+    print("group end")
+}
+// 0~5, 100~105 모두 출력후 group end 출력
+```
+
+- https://sujinnaljin.medium.com/ios-%EC%B0%A8%EA%B7%BC%EC%B0%A8%EA%B7%BC-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-gcd-7-4d9dbe901835
+
+- https://ios-development.tistory.com/263
+
+***
 
 > ### 💁🏻‍♂️ 13-7 : DispatchSemaphore를 사용하는 상황을 설명해주세요.
 
+-  운영체제의 semaphore와 같습니다.
 
+- 공유 자원에 동시 접근 가능한 작업 수를 명시하고, 임계 구역에 들어갈때는 semaphore의 wait()를, 작업을 수행하고 나올때는 signal() 을 호출합니다.
+
+- signal 은 작업을 수행하고 세마포어 값을 반환하기 때문에 +1
+
+- wait 은 열쇠를 획득하고 작업을 수행하러 가야하기 때문에 -1 입니다.
+
+```swift
+// semaphore 동시 작업 개수 1
+let semaphore = DispatchSemaphore(value: 1)
+
+DispatchQueue.global(qos: .background).async {
+    print("task A start")
+    print("task A end")
+    semaphore.signal()
+}
+
+semaphore.wait()
+
+DispatchQueue.global(qos: .background).async {
+    print("task B start")
+    print("task B end")
+    semaphore.signal()
+}
+
+semaphore.wait()
+
+DispatchQueue.global(qos: .background).async {
+    print("task C start")
+    print("task C end")
+    semaphore.signal()
+}
+
+/* 
+- 동시 접근 제한 1개인 경우
+task A start
+task A end
+task B start
+task B end
+task C start
+task C end
+
+- 동시 접근 제한 2개 이상인 경우
+task A start
+task A end
+task C start
+task C end
+task B start
+task B end
+순서가 보장되지 않고 동시 접근한다.
+
+/*
+
+```
+
+- https://sujinnaljin.medium.com/ios-%EC%B0%A8%EA%B7%BC%EC%B0%A8%EA%B7%BC-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-gcd-10-cb37c3e0cf13
 
 > ### 💁🏻‍♂️ 13-8 : GCD의 Barrier에 대해 설명해주세요.
 
+- Concurrent 큐가 사용하고 있는 여러개의 쓰레드 중에서, 하나의 쓰레드만 제외하고 모든 쓰레드의 사용을 막는 것입니다.
 
+- 해당 시점에서는 쓰레드를 오직 하나만 사용하기 때문에 serial 큐처럼 사용이 가능합니다.
+
+- Concurrent 큐에 read 작업들은 일반적인 task 로, write 작업을 barrier task 로 넣는식으로 응용할 수 있습니다.
+
+- read 는 여러개의 쓰레드가 동시접근해도 상관이 없지만, write 는 그렇지 않기 때문입니다.
+
+![](https://velog.velcdn.com/images/heyksw/post/3f3a1dfc-f747-4136-96fa-d7d2e82946d6/image.png)
+
+
+- https://sujinnaljin.medium.com/ios-%EC%B0%A8%EA%B7%BC%EC%B0%A8%EA%B7%BC-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-gcd-10-cb37c3e0cf13
 
 ***
 
