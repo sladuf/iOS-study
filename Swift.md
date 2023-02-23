@@ -716,13 +716,13 @@ Name Closure인 경우에는 어디에 위치 하냐에 따라 다릅니다.
 }
 ```
 
-> ### 💁🏻‍♂️ 8-2 :associatedType이 무엇인지 설명해주세요
+> ### 💁🏻‍♂️ 8-2 : associatedType이 무엇인지 설명해주세요
 
 associatedType은 프로토콜 내에서 타입을 지정하지 않고, 프로토콜을 채택하여 구현할 때 타입을 지정할 수 있도록 도와줍니다. 프로토콜에서 일종의 제네릭 역할을 합니다.
 
 - [https://zeddios.tistory.com/382](https://zeddios.tistory.com/382)
 
-> ### 💁🏻‍♂️ 8-3 :Codable에 대하여 설명해 주세요
+> ### 💁🏻‍♂️ 8-3 : Codable에 대하여 설명해 주세요
 
 1. Encodable과 Decodable 프로토콜의 합성 프로토콜입니다.
 2. Codable을 준수하는 타입은 다른 표현 방식으로 **상호 변환**할 수 있습니다.
@@ -741,7 +741,7 @@ associatedType은 프로토콜 내에서 타입을 지정하지 않고, 프로�
 3. ❗️**정리중**
 - [https://codesquad-yoda.medium.com/codable-vs-nscoding-차이점-4b47e240c0b8](https://codesquad-yoda.medium.com/codable-vs-nscoding-%EC%B0%A8%EC%9D%B4%EC%A0%90-4b47e240c0b8)
 
-> ### 💁🏻‍♂️ 8-4 :Equatable 프로토콜에 대해서 설명해 주세요
+> ### 💁🏻‍♂️ 8-4 : Equatable 프로토콜에 대해서 설명해 주세요
 
 1. 타입끼리 비교(==)연산을 하기 위해 필수적으로 구현해야 하는 프로토콜 입니다.
 2. 기본 타입은 Equatable을 따르고 있어 비교 연산이 가능하지만, 커스텀 타입의 경우 직접 채택해 주어야 합니다.
@@ -758,7 +758,7 @@ static func == (lhs: Class, rhs: Class) -> Bool {
 
 - [https://babbab2.tistory.com/148](https://babbab2.tistory.com/148)
 
-> ### 💁🏻‍♂️ 8-5 :Hashable 프로토콜에 대해서 설명해 주세요
+> ### 💁🏻‍♂️ 8-5 : Hashable 프로토콜에 대해서 설명해 주세요
 
 1. Hashable을 채택하는 타입은 모두 값을 정수 해시값으로 표현할 수 있습니다.
 2. Hashable은 Equatable 프로토콜을 준수하고 있습니다.
