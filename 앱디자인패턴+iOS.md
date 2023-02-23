@@ -458,17 +458,33 @@ obj.data = "Data2"
 
 ## 11. 앱 상태
 
-> ### 💁🏻‍♂️ 11-1 : 앱이 시작할 때 main.c 에 있는 UIApplicationMain 함수에 의해서 생성되는 객체는 무엇인가요?
+> ### 💁🏻‍♂️  11-1 : Run Loops에 대해 설명하시오.
 
-1. iOS 앱은 Objective-C 기반으로 돌아가기 때문에 앱은 main 함수에서 시작됩니다.
+1. Run Loop 는 스레드에서 **인풋 이벤트나 타이머를 처리하기 위한 이벤트 처리 루프**입니다.
 
-2. main() 함수는 UIKit 내부에 숨겨져 있습니다. 그리고 main() 함수 내부에서 UIApplicationMain 함수를 실행합니다.
+2. 스레드마다 런루프를 생성할 수 있고, Main Thread 의 Run Loop 인 **Main Run Loop 는 앱이 실행될 때 UIApplication 에서 자동으로 생성하고 실행**됩니다. (11-2 에서 자세히 설명)
+
+3. 다른 스레드에서 실행 중인 RunLoop 객체의 메서드를 호출하면 예기치 않은 결과가 발생할 수 있습니다.
+
+4. Run Loop 는 **thread-safe 하지 않으므로, 현재 스레드의 컨텍스트 내에서만 메서드를 호출**해야합니다. 
+
+- https://developer.apple.com/documentation/foundation/runloop
+
+- https://babbab2.tistory.com/68
+
+***
+
+> ### 💁🏻‍♂️ 11-2 : 앱이 시작할 때 main.c 에 있는 UIApplicationMain 함수에 의해서 생성되는 객체는 무엇인가요?
+
+1. iOS 앱은 Objective-C 기반으로 돌아가기 때문에 **앱은 main 함수에서 시작**됩니다.
+
+2. **main() 함수는 UIKit 내부**에 숨겨져 있습니다. 그리고 main() 함수 내부에서 UIApplicationMain 함수를 실행합니다.
 
 3. 그리고 **UIApplication** 이라는 객체를 생성합니다.
 
-4. **UIApplication** 은 실행중인 앱을 제어하는 핵심 객체이고, 모든 앱은 단 하나의 UIApplication 인스턴스를 가집니다.
+4. **UIApplication 은 실행중인 앱을 제어하는 핵심 객체**이고, Main Run Loop를 실행합니다.
 
-5. UIApplication.shared 로 접근할 수 있습니다.
+5.  **모든 앱은 단 하나의 UIApplication 인스턴스를 가지고**, UIApplication.shared 로 접근할 수 있습니다.
 
 6. UIApplication 인스턴스가 생성된 뒤에는 info.plist 파일을 읽어 파일에 기록된 정보를 참고해서 필요한 데이터를 로드합니다.
 
@@ -477,7 +493,7 @@ obj.data = "Data2"
 
 ***
  
-> ### 💁🏻‍♂️ 11-2 : @main에 대해서 설명하시오.
+> ### 💁🏻‍♂️ 11-3 : @main에 대해서 설명하시오.
 
 1. **@main 은 프로그램의 진입점**을 나타내고 주로 AppDelegate 에서 사용합니다.
 
@@ -487,7 +503,7 @@ obj.data = "Data2"
 
 - https://green1229.tistory.com/265
 
-> ### 💁🏻‍♂️ 11-3 : App의 LifeCycle 에 대해 설명하시오.
+> ### 💁🏻‍♂️ 11-4 : App의 LifeCycle 에 대해 설명하시오.
 
 - **Unattached** : 앱이 실행되지 않은 상태. 메모리에 올라오지 않은 상태.
 
@@ -509,7 +525,7 @@ obj.data = "Data2"
 
 ***
 
-> ### 💁🏻‍♂️ 11-4 : 앱이 foreground에 있을 때와 background에 있을 때 어떤 제약사항이 있나요?
+> ### 💁🏻‍♂️ 11-5 : 앱이 foreground에 있을 때와 background에 있을 때 어떤 제약사항이 있나요?
 
 - **Foreground** 상태는 앱이 실행되어 유저에게 보여지는 상태이고, 메모리 및 시스템 리소스를 효율적으로 사용해야 한다는 조건을 가집니다.
 
@@ -517,7 +533,7 @@ obj.data = "Data2"
 
 ***
 
-> ### 💁🏻‍♂️ 11-5 : 상태 변화에 따라 다른 동작을 처리하기 위한 앱델리게이트 메서드들을 설명하시오.
+> ### 💁🏻‍♂️ 11-6 : 상태 변화에 따라 다른 동작을 처리하기 위한 앱델리게이트 메서드들을 설명하시오.
 
 - **didFinishLaunching** : 앱을 메모리에 올리고, 앱을 실행할 준비를 마쳤을 때 호출합니다.
 
@@ -535,7 +551,7 @@ obj.data = "Data2"
 
 ***
 
-> ### 💁🏻‍♂️ 11-6 : UIWindow 에 대해 설명하시오.
+> ### 💁🏻‍♂️ 11-7 : UIWindow 에 대해 설명하시오.
 
 1. **UIWindow 는 UIView 들을 담는 컨테이너**입니다. 
 
@@ -550,7 +566,7 @@ obj.data = "Data2"
 
 ***
 
-> ### 💁🏻‍♂️ 11-7 : AppDelegate와 SceneDelegate 에 대해 설명하시오.
+> ### 💁🏻‍♂️ 11-8 : AppDelegate와 SceneDelegate 에 대해 설명하시오.
 
 - **iOS 12까지는 대부분 하나의 앱이 하나의 window** 를 가졌지만, **iOS 13 부터는 window의 개념이 scene으로 대체**됐고, **하나의 앱에서 여러 개의 scene**을 가질 수 있게 되었습니다.
 
@@ -562,7 +578,7 @@ obj.data = "Data2"
  
 ***
 
-> ### 💁🏻‍♂️ 11-8 :  App Bundle의 구조와 역할에 대해 설명하시오.
+> ### 💁🏻‍♂️ 11-9 :  App Bundle의 구조와 역할에 대해 설명하시오.
 
 1. **앱 번들은 앱의 성공적인 빌드를 위한 것들을 저장**합니다.
 
@@ -572,7 +588,7 @@ obj.data = "Data2"
  
  ***
  
-> ### 💁🏻‍♂️ 11-9 :  다크모드를 지원하는 방법에 대해 설명하시오.
+> ### 💁🏻‍♂️ 11-10 :  다크모드를 지원하는 방법에 대해 설명하시오.
  
 1. **Xcode 의 Color Assets** 에서 Color Set 로 **다크 모드인 경우 색상과 라이트 모드인 경우 색상을 함께 등록**합니다.
 
@@ -826,51 +842,167 @@ task B end
 
 > ### 💁🏻‍♂️  15-1 : Kingfisher 는 왜 사용했나요? 무슨 장점이 있나요?
 
-- Kingfisher 는 **URLSession 기반의 이미지 처리 라이브러리**로, 캐시 처리에 대해 편리한 기능을 제공하기 때문에 사용했습니다.
+- Kingfisher 는 **URLSession 기반의 이미지 처리 라이브러리**로, 캐시 처리에 대해 편리한 기능을 제공하기 때문에 사용했습니다. 킹피셔는 **메모리 캐싱과 디스크 캐싱**을 모두 편하게 처리할 수 있게 합니다.
 
 - **AlamofireImage 라이브러리에 비해서 캐시 처리에 편의성**이 장점이기 때문에 사용했습니다.
+
+```
+🤓 앱의 메모리 캐싱과 디스크 캐싱
+1. 메모리 캐싱
+  - 앱의 메모리 중 일부분을 캐싱에 활용
+  - 앱이 메모리에서 해제되면 함께 삭제
+
+2. 디스크 캐싱
+  - 메모리가 아닌 디스크에 캐싱 활용
+  - 앱이 메모리에서 해제되어도 남아있음
+  - ex) 카카오톡 종료 후 데이터 끄고 들어와도 사진 보임
+```
 
 ***
 
 > ### 💁🏻‍♂️ 15-2 : NSCache 동작 방법. 어디에 저장되나요?
 
-***
+- NSCache 는 **Key-Value 형태로 데이터를 저장하는 메모리 캐싱** 클래스이고, **앱이 메모리에서 해제될 때 자동으로 캐시된 내용들이 함께 제거**됩니다.
 
-> ### 💁🏻‍♂️ 15-3 : 라이브러리를 안쓰고 캐시 직접 구현 어떻게 할까요
+- 그리고 NSCache 는 **Thread-Safe** 하기 때문에 여러 쓰레드에서 동시 접근해도 상관없습니다.
+
+- NSCache 는 **링크드 리스트와 딕셔너리**를 함께 사용하는 구조로 이루어져있습니다.
+
+- 링크드 리스트를 통해 key 를 관리하고, 그 key 에 대한 value 는 딕셔너리로 참조합니다.
+
+- https://beenii.tistory.com/187 
 
 ***
 
 > ### 💁🏻‍♂️ 15-4 : 같은 url 이지만 이미지가 바뀔 경우는 어떻게 처리할까요?
 
-***
+- 같은 url 이지만 이미지가 변경되는 경우는 url 에 버전을 달아 관리하거나, 특정지을 수 있는 해시 값을 함께 내려줘야 합니다.
 
+- 이 모든 과정이 세팅되었음에도 불구하고, 이미지가 변경되어 보이지 않는다면 http response 자체를 캐싱하고 있지는 않은지 확인합니다.
 
+- Ace 님 👍🏻
 
 ***
 
 
 ## 16. 추가 개념
 
-> ### 💁🏻‍♂️  Run Loops에 대해 설명하시오.
+> ### 💁🏻‍♂️  16-1 : 모듈화란 무엇이고 왜 하나요?
 
-> ### 💁🏻‍♂️  모듈화란 무엇이고 왜 하나요
+1. 모듈화는 마치 객체지향에서 클래스 단위로 책임을 나누어 관리 하는 것처럼, **클래스의 모음을 모듈이라는 단위로 묶어, 프로젝트 단위의 책임을 나누어 관리**하는 것을 말합니다.
 
-> ### 💁🏻‍♂️  의존성 주입에 대하여 설명하시오.
+2. **모듈 별 분업이 용이**하고, **잘 만들어진 모듈은 재활용**할 수 있습니다.
 
-> ### 💁🏻‍♂️  MVC 구조에 대해 블록 그림을 그리고, 각 역할과 흐름을 설명하시오.
+3. **모듈 별로 빌드가 가능해져, 개발 효율**을 높일 수 있습니다.
 
-> ### 💁🏻‍♂️  init?()과 init()은 어떤 차이가 있나요?
+***
+> ### 💁🏻‍♂️  16-2 : 의존성 주입에 대하여 설명하시오.
 
-> ### 💁🏻‍♂️  웹 서버와 HTTP 연결을 사용해서 데이터를 주거나 받으려면 사용해야 하는 클래스와 동작을 설명하시오.
+- **의존성 주입이란, 한 클래스내에서 다른 클래스의 인스턴스를 직접 생성하지 않고, 외부에서 생성한 후 매개변수로 전달**해주는 것을 말합니다.
 
-> ### 💁🏻‍♂️  Core Data와 Sqlite 같은 데이터 베이스의 차이점을 설명하시오
+- 이 때, **인터페이스를 활용해서 객체지향의 의존 역전 원칙** (Dependency Inversion Principle)을 만족하도록 합니다.
 
-> ### 💁🏻‍♂️  shallow copy와 deep copy의 차이점을 설명하시오.
+```
+🤓 의존 역전 원칙 (DIP)
 
-> ### 💁🏻‍♂️  Synchronous 방식과 Asynchronous 방식으로 URL Connection을 처리할 경우의 장단점을 비교하시오.
+- 의존 관계를 맺을 땐, "변화하기 쉬운 것보단 변화하기 어려운 것에 의존해야 한다"는 원칙.
+- 여기서 변화하기 어려운 것이란 추상 클래스나 인터페이스를 말하고, 변화하기 쉬운 것은 구체화된 클래스를 의미.
+- 따라서 DIP를 만족한다는 것은 구체적인 클래스가 아닌 인터페이스 또는 추상 클래스와 관계를 맺는다는 것을 의미.
 
-> ### 💁🏻‍♂️  오토레이아웃을 코드로 작성하는 방법은 무엇인가? (3가지)
+``` 
 
-> ### 💁🏻‍♂️  멀티 쓰레드로 동작하는 앱을 작성하고 싶을 때 고려할 수 있는 방식들을 설명하시오.
+***
+> ### 💁🏻‍♂️ 16-3 : MVC 구조에 대해 블록 그림을 그리고, 각 역할과 흐름을 설명하시오.
+
+- 간단한 날씨 앱을 예로 들어보겠습니다.
+
+- **Model** : 앱에 필요한 데이터들을 구체화합니다. 예를 들어 Weather 라는 데이터 구조체는 안에 temperature, humid, image 등을 담는다고 구체화 할 수 있습니다. 또한 이러한 데이터를 가공합니다.
+
+- **View** : 앱 화면에 보이는 뷰 로직을 담당합니다. 예를 들어 일주일 날씨를 띄워주는 테이블 뷰, 컬렉션 뷰 등이 있습니다.
+
+- **Controller** : 사용자 입력을 받아들이고, 뷰와 모델 사이에 필요한 데이터들을 전달합니다. 예를들어 어떠한 버튼을 눌렀을 경우 모델의 데이터를 어떻게 변경하고 전달한다와 같은 역할을 합니다.
+
+***
+
+> ### 💁🏻‍♂️ 16-4 : 웹 서버와 HTTP 연결을 사용해서 데이터를 주거나 받으려면 사용해야 하는 클래스와 동작을 설명하시오.
+
+- URLSession 을 사용합니다. URLSession 은 Alamofire 나 Moya 의 기반이 되는 클래스입니다.
+
+1. Session Configuration 을 결정하고 Session 생성
+   - Shared Session / Default Session 등 디스크에 저장할 건지, 메모리에 저장할 건지
+
+2. URL 과 Request 객체 설정
+
+3. Task 설정, Completion Handler 나 Delegate 설정
+   - URLSessionDataTask / URLSessionUploadTask 등 웹 소켓인지 TCP 인지
+
+4. Task 실행 완료 후 그에 맞는 Completion Handler 클로저 호출
+
+***
+> ### 💁🏻‍♂️ 16-5 : Core Data와 Sqlite 같은 데이터 베이스의 차이점을 설명하시오
+
+- Core Data 는 디바이스에 데이터를 저장할 수 있습니다. UserDefault 와 비슷하지만, 보다 복잡하고 큰 데이터를 저장하는데 적합합니다.
+
+- 반면에 Sqlite 는 RDB DBMS 입니다. 따라서 Core Data 는 데이터베이스가 아니고 Sqlite 는 데이터베이스라는 차이점이 있습니다.
+
+- http://egloos.zum.com/scienart/v/2661925
+
+***
+> ### 💁🏻‍♂️ 16-6 : shallow copy와 deep copy의 차이점을 설명하시오.
+
+- shallow copy 는 주소 값을 복사하기 때문에 참조하고 있는 실제 값은 같습니다.
+
+- deep copy 는 실제 값을 새로운 메모리 공간에 복사합니다.
+
+***
+> ### 💁🏻‍♂️ 16-7 : Synchronous 방식과 Asynchronous 방식으로 URL Connection을 처리할 경우의 장단점을 비교하시오.
+
+- 비동기로 처리할 경우, 네트워크 통신을 보내놓고 다른 작업을 수월하게 할 수 있다는 장점이 있지만, 어떤 작업들의 순서를 보장하기 힘들다는 단점이 있습니다.
+
+- 동기로 처리할 경우, 네트워크 통신을 보내놓고 다른 작업을 수행하기 힘들다는 단점이 있지만, 작업의 순서를 보장할 수 있다는 장점이 있습니다.
+
+***
+> ### 💁🏻‍♂️ 16-8 : 오토레이아웃을 코드로 작성하는 방법은 무엇인가? (3가지)
+
+1. **NSLayoutConstraint**
+   - 객체간의 관계와 간격을 설정합니다.
+
+2. **NSLayoutAnchor**
+   - NSLayoutConstraint 보다 가독성 좋게 사용할 수 있습니다.
+
+3. **Visual Format Language**
+   - 시각적으로 표현하기 때문에 표현성이 좋습니다.
+   - 표현성을 강조했기 때문에 디테일한 설정은 하기 어렵습니다.
+
+
+
+```swift
+// 1. NSLayoutConstraint
+NSLayoutConstraint.init(item: aView,
+                                attribute: .leading,
+                                relatedBy: .equal,
+                                toItem: view,
+                                attribute: .leading,
+                                multiplier: 1.0,
+                                constant: 8).isActive = true
+                                
+
+// 2. NSLayoutAnchor
+aView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 8).isActive = true
+
+
+// 3. Visual Format Language
+let format1 = "H:|-[a]-|"
+var constraint = NSLayoutConstraint.constraints(withVisualFormat: format1,
+                                                        options: [],
+                                                        metrics: nil,
+                                                        views: views)
+
+```
+
+- https://nsios.tistory.com/99
+
+***
+> ### 💁🏻‍♂️ 16-9 : 멀티 쓰레드로 동작하는 앱을 작성하고 싶을 때 고려할 수 있는 방식들을 설명하시오.
 
 
