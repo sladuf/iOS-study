@@ -670,16 +670,111 @@ Name Closure인 경우에는 어디에 위치 하냐에 따라 다릅니다.
 > **💁🏻‍♂️💁🏻‍♂️ COW를 지원하지 않는 value type에서 COW를 사용하고 싶으면 어떻게 구현해야 할까요?**
 
 
-## 프로토콜
-> ### 프로토콜이란 무엇인지 설명하시오.
-> ### Codable에 대하여 설명하시오.
-> ### Hashable 프로토콜에 대해서 설명해보세요. 
-> ### Hashable 프로토콜을 채택하는 커스텀 타입이 Equtable도 채택해야하는 이유가 무엇인가요?
-> ### Hashable이 무엇이고, Equatable을 왜 상속해야 하는지 설명하시오.
-> ### 열거형도 Hashable을 채택했을 때 자동으로 Hashable하게 만들 수 있나요?
-> ### Codable과 NSCoding의 차이는?
-> ### associatedType이 무엇인지 설명해주세요.
+## 8. 프로토콜
 
+> ### 💁🏻‍♂️ 8-1 : 프로토콜이란 무엇인지 설명해 주세요
+
+1. 프로토콜이란 객체가 어떤 역할을 하기위한 인터페이스를 정의하는 것입니다.
+2. 프로토콜은 정의를 하고 제시만 할 뿐, 스스로 기능을 구현하지 않습니다.
+3. 프로토콜을 통해 **다형성**을 구현할 수 있으며, 프로토콜을 이용하여 객체 간에 유연한 커뮤니케이션을 할 수 있습니다.
+4. **클래스, 구조체, 열거형**이 프로토콜을 채택할 수 있으며, 채택한 타입은 프로토콜이 제시하는 기능을 모두 구현해야 합니다.
+
+```
+📌 다형성
+하나의 객체가 다양한 타입을 가질 수 있는 것을 의미합니다.
+📌 채택의 제한
+프로토콜의 상속 리스트에 class 키워드를 추가하면, class만 채택가능한 프로토콜이 됩니다.
+📌 프로퍼티
+- 프로퍼티는 항상 var 키워드를 사용해야 합니다.
+- 해당 프로토콜을 채택한 후에는 var, let 중 어떤것으로 선언해도 무관합니다.
+- 프로퍼티를 { get set }으로 요구한 경우에는 채택한 후에도 let을 사용해서는 안됩니다. set을 할 수 없기 때문입니다.
+- 하지만 { get }으로 요구했더라도, 채택한 후에 필요하다면 set을 적용 해도 무관합니다.
+```
+> **💁🏻‍♂️💁🏻‍♂️ 프로토콜은 기능 구현을 하지 못하나요?**
+
+1. 아니요, 프로토콜을 이용해 추상클래스로써 역할을 할 수 있습니다.
+2. 프로토콜은 기본적으로 기능 구현을 할 수 없고, 클래스는 추상 표현이 불가능 합니다.
+3. 하지만 프로퍼티와 메서드를 프로토콜로 정의하고 **extension**을 통해 프로토콜 메서드의 기본 구현체를 만들면 추상클래스와 동일한 개념을 가집니다.
+
+```
+💡
+- 프로토콜은 extension을 통해서만 구현체 작성이 가능합니다.
+- 프로토콜간에 상속이 가능합니다.
+```
+
+> **💁🏻‍♂️💁🏻‍♂️ 프로토콜에서 정의된 기능은 무조건 구현해야 할까요?*
+
+1. 아니요, 프로토콜은 **선택적 요구사항을 지정**할 수 있습니다.
+2. 단, 선택적 요구사항을 정의하고 싶은 프로토콜은 **objc** 속성이 부여된 프로토콜이어야 한다는 규칙이 있습니다.
+3. 그리고 선택적 요구사항이 적용된 프로토콜은 objc 속성이 부여된 클래스에서만 사용 가능합니다.
+4. 선택적 요구사항은 `@objc optional` 키워드를 요구사항 앞에 붙여줘야 합니다.
+
+```swift
+@objc protocol SomeProtocol {
+	func essential() //프로토콜 채택시 반드시 구현해야함!!
+	@objc optional func option() //선택적으로 구현해도 됨
+}
+```
+
+> ### 💁🏻‍♂️ 8-2 :associatedType이 무엇인지 설명해주세요
+
+associatedType은 프로토콜 내에서 타입을 지정하지 않고, 프로토콜을 채택하여 구현할 때 타입을 지정할 수 있도록 도와줍니다. 프로토콜에서 일종의 제네릭 역할을 합니다.
+
+- [https://zeddios.tistory.com/382](https://zeddios.tistory.com/382)
+
+> ### 💁🏻‍♂️ 8-3 :Codable에 대하여 설명해 주세요
+
+1. Encodable과 Decodable 프로토콜의 합성 프로토콜입니다.
+2. Codable을 준수하는 타입은 다른 표현 방식으로 **상호 변환**할 수 있습니다.
+3. 대표적으로 JSONEncoder, JSONDecoder과 결합하여 인스턴스를 JSON으로 변환하고, JSON을 인스턴스로 변환할 때 사용할 수 있습니다.
+
+```
+📌 Encodable과 Decodable?
+- 사용자 정의 데이터 타입을 다른 형식으로 인코딩(with Encodable)하거나 디코딩(with Decodable)할 수 있는 프로토콜입니다.
+- Foundation 프레임워크에 있는 여러 클래스와 호환하면 다양한 기능을 할 수 있습니다.
+```
+
+> **💁🏻‍♂️💁🏻‍♂️ Codable과 NSCoding의 차이는?*
+
+1. Codable은 클래스, 열거형, 구조체에 모두 적용할 수 있지만 NSCoding은 클래스 타입에만 적용이 가능합니다.
+2. NSCoding은 NSObject를 상속받은 클래스에서만 채택할 수 있습니다. 또 NSCoding을 채택하면 반드시 NSKeyedArchiver와 NSKeyedUnarchiver를 사용해 **Data 타입으로 저장하고 디코딩**해야합니다.
+3. ❗️**정리중**
+- [https://codesquad-yoda.medium.com/codable-vs-nscoding-차이점-4b47e240c0b8](https://codesquad-yoda.medium.com/codable-vs-nscoding-%EC%B0%A8%EC%9D%B4%EC%A0%90-4b47e240c0b8)
+
+> ### 💁🏻‍♂️ 8-4 :Equatable 프로토콜에 대해서 설명해 주세요
+
+1. 타입끼리 비교(==)연산을 하기 위해 필수적으로 구현해야 하는 프로토콜 입니다.
+2. 기본 타입은 Equatable을 따르고 있어 비교 연산이 가능하지만, 커스텀 타입의 경우 직접 채택해 주어야 합니다.
+3. 구조체는 프로퍼티가 **모두 기본 타입**인 경우 Equatable을 채택하면 비교 연산이 가능합니다.
+4. 클래스의 경우 직접 메서드를 구현해주어야 합니다.
+5. 열거형의 경우 연관값이 없으면 자동으로 Equatable을 채택합니다. 연관값이 있는 경우  Equatable을 직접 채택해줘야 하며, 연관값이 모두 Equatable을 따르고 있어야 합니다.
+
+```swift
+//직접 메서드를 구현해줘야 하는 경우
+static func == (lhs: Class, rhs: Class) -> Bool {
+    return lhs.first == rhs.first && lhs.second == rhs.second
+}
+```
+
+- [https://babbab2.tistory.com/148](https://babbab2.tistory.com/148)
+
+> ### 💁🏻‍♂️ 8-5 :Hashable 프로토콜에 대해서 설명해 주세요
+
+1. Hashable을 채택하는 타입은 모두 값을 정수 해시값으로 표현할 수 있습니다.
+2. Hashable은 Equatable 프로토콜을 준수하고 있습니다.
+3. 기본 데이터 타입은 Hashable을 따르고 있지만, 커스텀 타입의 경우 직접 채택해야 합니다.
+4. 구조체는 프로퍼티가 모두 기본 타입이면 Hashable을 채택하기만 하면 됩니다.
+5. 클래스는 직접 hash함수를 구현해주어야 합니다. 추가로 Equatable을 채택하고 있기 때문에 == 함수도 함께 구현해주어야 합니다.
+6. 열거형의 경우 연관값이 없으면 자동으로 Hashable을 채택합니다. 연관값이 있는 경우 Hashable을 채택해줘야 하며, 연관값이 모두 Hashable을 채택해야 합니다.
+
+> **💁🏻‍♂️💁🏻‍♂️ Equatable을 왜 채택해야 하나요?*
+
+해시값은 고유값이어야 합니다. 그래서 고유값을 식별해 줄 수 있는 == 함수가 필요합니다.
+
+그래서 Equatable을 채택하여 ==함수를 구현해야 합니다.
+
+- [https://babbab2.tistory.com/149](https://babbab2.tistory.com/149)
+- [https://velog.io/@hayeon/Hashable이-무엇이고-Equatable을-왜-상속해야-하는지-설명하시오#왜-hashable은-equatable을-상속해야할까](https://velog.io/@hayeon/Hashable%EC%9D%B4-%EB%AC%B4%EC%97%87%EC%9D%B4%EA%B3%A0-Equatable%EC%9D%84-%EC%99%9C-%EC%83%81%EC%86%8D%ED%95%B4%EC%95%BC-%ED%95%98%EB%8A%94%EC%A7%80-%EC%84%A4%EB%AA%85%ED%95%98%EC%8B%9C%EC%98%A4#%EC%99%9C-hashable%EC%9D%80-equatable%EC%9D%84-%EC%83%81%EC%86%8D%ED%95%B4%EC%95%BC%ED%95%A0%EA%B9%8C)
 
 ## 키워드
 > ### mutating 키워드에 대해 설명하시오.
