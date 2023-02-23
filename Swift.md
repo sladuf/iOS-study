@@ -776,17 +776,63 @@ static func == (lhs: Class, rhs: Class) -> Bool {
 - [https://babbab2.tistory.com/149](https://babbab2.tistory.com/149)
 - [https://velog.io/@hayeon/Hashable이-무엇이고-Equatable을-왜-상속해야-하는지-설명하시오#왜-hashable은-equatable을-상속해야할까](https://velog.io/@hayeon/Hashable%EC%9D%B4-%EB%AC%B4%EC%97%87%EC%9D%B4%EA%B3%A0-Equatable%EC%9D%84-%EC%99%9C-%EC%83%81%EC%86%8D%ED%95%B4%EC%95%BC-%ED%95%98%EB%8A%94%EC%A7%80-%EC%84%A4%EB%AA%85%ED%95%98%EC%8B%9C%EC%98%A4#%EC%99%9C-hashable%EC%9D%80-equatable%EC%9D%84-%EC%83%81%EC%86%8D%ED%95%B4%EC%95%BC%ED%95%A0%EA%B9%8C)
 
-## 키워드
-> ### mutating 키워드에 대해 설명하시오.
-> ### lazy 에 대해 설명하시오.
-> ### some 키워드에 대해 설명하시오.
-> ### typealias 가 무엇인지 말해주세요.
-> ### required 키워드에 대해서 설명해보세요. 
+## 9. 키워드
+> ### 💁🏻‍♂️ 9-1 : mutating 키워드에 대해 설명해 주세요
 
-## 패러다임
-> ### Swift Standard Library의 map, filter, reduce, compactMap, flatMap에 대하여 설명하시오.
-> ### 고차함수 중 flatMap과 compactMap의 차이를 설명해보세요.
-> ### Protocol Oriented Programming과 Object Oriented Programming의 차이점을 설명하시오.
+1. 기본적으로 Swift에서는 **구조체나 열거형** 내부에서 변수를 변경할 수 없습니다.
+2. 하지만, mutating 키워드를 함수 앞에 붙이면 함수 내부에서 해당 구조체나 열거형의 값을 변경할 수 있습니다.
+
+> ### 💁🏻‍♂️ 9-2 : lazy 에 대해 설명해 주세요
+
+1. lazy는 지연 저장 프로퍼티로, 호출이 있어야만 값을 초기화 합니다.
+2. lazy는 호출될 때 값을 초기화 하므로 init시점 이후에 값을 초기화 할 가능성이 있습니다. 그러므로 상수가 아닌변수로 정의해야 합니다.
+3. lazy 프로퍼티를 적절히 사용하면 성능저하나 공간 낭비를 줄일 수 있습니다.
+
+> **💁🏻‍♂️💁🏻‍♂️ lazy는 어떤 문제가 있을 수 있나요?**
+
+다중 스레드 환경에서 lazy 키워드로 생성한 변수를 여러 스레드가 동시에 접근하는 경우 여러번 초기화되는 문제가 생길 수 있습니다.
+
+> ### 💁🏻‍♂️ 9-3 : typealias 가 무엇인지 말해주세요
+
+1. 기존 타입에 새로운 이름(별명)을 지정할 때 사용하는 키워드입니다.
+2. typealias를 잘 사용하면 코드를 더욱 가독성 있게 만들 수 있습니다.
+
+```swift
+typealias Name = String
+let name : Name = "김제니"
+```
+
+> ### 💁🏻‍♂️ 9-4 : required 키워드에 대해서 설명해 주세요
+
+1. 클래스나 프로토콜을 상속받는 클래스에서 해당 메서드가 반드시 구현되어야 할 때 사용합니다.
+2. required 키워드가 붙은 메서드는 하위 클래스에서 구현되지 않으면 컴파일 오류가 발생합니다.
+3. 만약, override 키워드와 함께 사용되는 경우, override 키워드가 반드시 함께 사용되어야 합니다.
+
+## 10. 패러다임
+
+> ### 💁🏻‍♂️ 10-1 : Swift의 map, filter, reduce에 대하여 설명해 주세요
+
+1. 스위프트는 함수를 일급 객체로 취급합니다. 그래서 함수를 매개변수로 사용할 수 있습니다.
+2. 매개변수로 함수를 갖는 함수를 **고차 함수**라고 부르는데, map, filter, reduce는 모두 고차함수에 속합니다.
+3. map은 초기값과 클로저를 전달 받아 전달받은 클로저를 실행하여 그 결과를 다시 반환해주는 함수입니다. 기존 데이터를 변형하지 않고 새로운 값을 반환합니다. 예를들어, 초기 값의 타입을 Int → String으로 변환할 때 사용할 수 있습니다.
+4. filter는 컨테이너 내부의 값을 걸러서 추출하는 함수입니다. 조건에 맞는 값을 모아 map과 마찬가지로 새로운 컨테이너를 반환합니다. 예를들어, 초기 값이 Int인 경우 10이상인 값만 추출 할 때 사용할 수 있습니다.
+5. reduce는 초기값을 하나의 값으로 합쳐주는 함수입니다. reduce를 사용하여 배열의 모든 값을 합치는 경우 그 결과는 배열이 아닌 하나의 값으로 나오게 됩니다.
+
+> **💁🏻‍♂️💁🏻‍♂️ map의 종류인 flatMap과 compactMap에 대해서 설명해 주세요**
+
+1. 두 함수는 요소가 일차원 배열일 때 동일하게 동작합니다.
+2. 일차원 배열에서 클로저의 실행 결과가 옵셔널일 때, nil인 경우 nil을 제거하고 옵셔널 바인딩 한 결과를 배열로 만들어 반환합니다. 하지만, 2차원 배열인 경우 nil을 제거하지않습니다.
+3.  flatMap은 결과를 **1차원 배열로(flatten)** 만들어내고, compactMap은 2차원 배열 그대로 반환한다는 차이점이 있습니다.
+- [https://jinshine.github.io/2018/12/14/Swift/22.고차함수(2) - map, flatMap, compactMap/](https://jinshine.github.io/2018/12/14/Swift/22.%EA%B3%A0%EC%B0%A8%ED%95%A8%EC%88%98(2)%20-%20map,%20flatMap,%20compactMap/)
+
+```
+💡 swift에서 같은 일차원 옵셔널 배열을 사용할 때, compactMap을 권장합니다.
+
+'flatMap' is deprecated: Please use compactMap(_:) for the case where closure returns an optional value
+
+```
+
+> ### 💁🏻‍♂️ 10-2 : Protocol Oriented Programming과 Object Oriented Programming의 차이점을 설명하시오.
 
 ## function / method
 > ### instance 메서드와 class 메서드의 차이점을 설명하시오.
