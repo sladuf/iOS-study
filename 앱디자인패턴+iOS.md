@@ -1005,4 +1005,10 @@ var constraint = NSLayoutConstraint.constraints(withVisualFormat: format1,
 ***
 > ### 💁🏻‍♂️ 16-9 : 멀티 쓰레드로 동작하는 앱을 작성하고 싶을 때 고려할 수 있는 방식들을 설명하시오.
 
+1. GCD 활용
+	Swift 에서는 Dispatch Queue 를 통해 멀티 쓰레드 작업을 수행할 수 있습니다.
+    예를 들어 UI 를 담당하는 main thread 이외에도 다른 작업을 수행하고 싶다면 Custom Queue 나 Global Queue 를 생성해서 sync / async 로 처리할 수 있습니다.
+
+2. 라이브러리 활용 RxSwift
+	RxSwift 를 사용해본 경험이 있습니다. RxSwift 를 활용하면 멀티 쓰레드 및 비동기 작업들을 편리하게 수행할 수 있고, Scheduler, Subject, Relay 등이나 유용한 메서드를 사용할 수 있게 됩니다.
 
