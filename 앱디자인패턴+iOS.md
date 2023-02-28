@@ -1,3 +1,7 @@
+- [@slafud](https://github.com/sladuf) 과 함께 정리한 글
+
+***
+
 # 🍎 앱 디자인 패턴
 
 ## 1. MVVM
@@ -8,11 +12,13 @@
 
 2. MVVM 패턴의 목표는 **뷰 로직과 비즈니스 로직을 분리**하는 것입니다.
 
-3. View 에서는 오직 뷰 로직만 다룹니다.
+3. View 에서는 뷰 로직을 다룹니다. 사용자 입력을 받습니다.
 
 4. ViewModel 에서는 View 를 위한 상태와 메서드를 정의하고 View 는 ViewModel 의 상태변화를 **옵저버 패턴**을 통해 관찰합니다. 이를 **데이터 바인딩**이라고 합니다.
 
 5. ViewModel 은 View 가 쉽게 사용할 수 있도록 Model 의 데이터를 가공해서 View 에게 전달합니다.
+
+6. Model 은 데이터와 비즈니스 로직을 포함합니다. 데이터베이스, 네트워크 API 에서 데이터를 가져오고, 처리 및 저장하는 책임을 가집니다.
 
 - **MVVM 장점**
 
@@ -28,16 +34,18 @@
 
 > ### 💁🏻‍♂️ : 옵저버 패턴에 대해 설명해주세요
 
-1. 옵저버 패턴이란, 어떤 객체의 상태가 변화할 때 그를 관찰하는 구독자들에게 이벤트를 발생시켜주는 디자인 패턴입니다. 이 때 이벤트를 발행하는 객체를 Publisher, 구독자를 Observer 라고 합니다.
+1. 옵저버 패턴(Observer Pattern)은 **객체 간의 의존성을 줄이고, 객체 간의 상호작용을 느슨하게 만들기 위한 디자인 패턴** 중 하나입니다.
 
-2. 옵저버 패턴을 사용함으로써 **객체지향의 Open-Close 원칙** (개방 폐쇄 원칙)을 지킬 수 있습니다. (옵저버 패턴의 장점)
+2. 옵저버 패턴이란, 어떤 **객체의 상태가 변화할 때 그를 관찰하는 구독자들에게 이벤트를 발생시켜주는 디자인 패턴**입니다. 이 때 이벤트를 발행하는 객체를 Publisher, 구독자를 Observer 라고 합니다.
+
+3. 옵저버 패턴을 사용함으로써 **객체지향의 Open-Close 원칙** (개방 폐쇄 원칙)을 지킬 수 있습니다. (옵저버 패턴의 장점)
 
 > **💁🏻‍♂️ → 왜죠?**
 
 
-1. Publisher 와 Observer 가 인터페이스를 통해 느슨하게 결합되어 있기 때문입니다. 
+1. Publisher 와 Observer 가 **인터페이스를 통해 느슨하게 결합**되어 있기 때문입니다. 
 
-2. Observer 는 Publisher 가 누구인지 정확하게 알고 있어야 하지만, Publisher 는 구체적으로 구독자를 알지 못해도, Observer 라는 인터페이스를 지키는 객체들이 있다는 사실 정도만 알고 있어도 됩니다.
+2. Observer 는 Publisher 가 누구인지 알고 있어야 하지만, Publisher 는 구체적으로 구독자를 알지 못해도, Observer 라는 인터페이스를 지키는 객체들이 있다는 사실 정도만 알고 있어도 됩니다.
 
 3. Observer interface 를 사용하면, 새로운 타입의 구독자가 생겼을 때 Oberver interface 를 준수하는 형태로 구현하기만 하면 기존 코드가 돌아가는데 문제가 없습니다. (기능 확장에 열려있다)
 
@@ -111,13 +119,13 @@
 
 > ### 💁🏻‍♂️ : 디자인 패턴이란 무엇이고, 왜 사용하나요?
 
-- 디자인 패턴이란 일반적인 개발 과정에서 자주 발생하는 문제를 해결하기 위한 개발자들의 교과서입니다.
+- 디자인 패턴이란 **일반적인 개발 과정에서 자주 발생하는 문제를 해결하기 위한 개발자들의 교과서**입니다.
 
 - 사용 이유
 
-1. 이미 증명된 솔루션이기 때문에 개인적으로 생각해낸 해결방안보다 사용할 근거가 충분합니다.
+1. **이미 증명된 솔루션**이기 때문에 개인적으로 생각해낸 해결방안보다 사용할 근거가 충분합니다.
 
-2. 약속되어있기 때문에 아예 다른 사람이 처음 코드를 보게 되더라도, 디자인 패턴에 대한 이해만 있다면 수월하게 코드를 이해할 수 있습니다.
+2. 약속되어있기 때문에 아예 **다른 사람이 처음 코드를 보게 되더라도**, 디자인 패턴에 대한 이해만 있다면 수월하게 코드를 이해할 수 있습니다.
 
 - https://velog.io/@k7120792/Model-View-ViewModel-Pattern#%EC%9E%A5%EC%A0%90
 
@@ -133,9 +141,9 @@
 
 > ### 💁🏻‍♂️ 6-2 : 순환 참조에 대하여 설명해주세요
 
-1. 두 가지 객체가 서로에 대한 강한 참조 상태를 가질 때 순환 참조라고 합니다.
+1. 두 가지 객체가 서로에 대한 **강한 참조 상태**를 가질 때 순환 참조라고 합니다.
 
-2. 순환 참조가 발생하면 메모리 누수 현상이 발생하기 때문에 약한 참조를 통해 이를 해소시켜줘야 합니다.
+2. 순환 참조가 발생하면 **메모리 누수 현상이 발생하기 때문에 약한 참조를 통해 이를 해소**시켜줘야 합니다.
 
 > ### 💁🏻‍♂️ 6-3 : 강한 참조와 약한 참조에 대하여 설명해주세요
 
@@ -151,27 +159,31 @@
 
 > ### 💁🏻‍♂️ 6-5 : weak 과 unowned 를 비교 설명해주세요
 
-1. unowned 는 **객체를 직접** 가리키지만, weak 는 **side table 을 거쳐서** 객체를 가리킵니다.
+1. **weak 는 참조 대상이 메모리에서 해제되었을 때 nil 설정되는 optional** 이지만, **unowned 는 참조 대상이 메모리에서 해제되었을 때 nil 이 되지 않는 non-optional** 이고, 에러를 발생합니다.
 
-2. 그렇기 때문에 unowned 키워드를 사용할 경우, strong reference count == 0 이 되어버리면 **dangling pointer** 가 되어버리기 때문에 **인스턴스의 해제 시점을 예민하게 고려**해줘야 합니다.
+2. unowned 는 **객체를 직접** 가리키지만, weak 는 **side table 을 거쳐서** 객체를 가리킵니다.
 
-3. weak 는 weak reference 를 증가시키고 unowned 는 unowned reference 를 증가시킵니다.
+3. 그렇기 때문에 unowned 키워드를 사용할 경우, strong reference count == 0 이 되어버리면 **dangling pointer** 가 되어 오류가 생기기 때문에 **인스턴스의 해제 시점을 예민하게 고려**해줘야 합니다.
+
+4. weak 는 weak reference 를 증가시키고 unowned 는 unowned reference 를 증가시킵니다.
 
 > **💁🏻‍♂️ 그러면 side table 이 무엇이고 reference count 종류에 대해 자세히 설명해보실래요**
 
-1. **reference count 에는 3가지 종류**가 있습니다. strong / unowned / weak. HeapObject struct 내부에서는 이 3가지에 대한 rc 들을 모두 카운팅합니다.
+1. **side table** 은 HeapObject 에서 **weak rc 를 관리하기 위해 별도로 생성된 자료구조** 입니다. weak 참조를 하게 되면 자동으로 side table 이 생성됩니다.
 
-2. strong rc == 0 이 되면 인스턴스가 **deinit** 상태가 됩니다. 이는 메모리가 dealloc 된 상태는 아닙니다.
+2. side table 은 Swift4 이전의 **좀비 오브젝트 문제**를 해결하기 위해 도입되었습니다.
 
-3. unowned rc == 0 이 되면 **dealloc** 상태가 되어 완전히 메모리에서 해제됩니다.
+3. **reference count 에는 3가지 종류**가 있습니다. strong / unowned / weak. HeapObject struct 내부에서는 이 3가지에 대한 rc 들을 모두 카운팅합니다.
 
-4. dealloc 이 되었어도 weak rc != 0 이라면 side table 이 메모리에 남아있습니다. 이를 **freed** 상태라고 합니다. 
+4. strong rc == 0 이 되면 인스턴스가 **deinit** 상태가 됩니다. 이는 메모리가 dealloc 된 상태는 아닙니다.
 
-5. weak rc == 0 이 된다면 비로소 객체는 완전히 죽어 **DEAD** 상태가 됩니다.
+5. unowned rc == 0 이 되면 **dealloc** 상태가 되어 완전히 메모리에서 해제됩니다.
 
-6. **side table** 은 HeapObject 에서 **weak rc 를 관리하기 위해 별도로 생성된 자료구조** 입니다. weak 참조를 하게 되면 자동으로 side table 이 생성됩니다.
+6. dealloc 이 되었어도 weak rc != 0 이라면 side table 이 메모리에 남아있습니다. 이를 **freed** 상태라고 합니다. 
 
-7. side table 은 Swift4 이전의 **좀비 오브젝트 문제**를 해결하기 위해 도입되었습니다.
+7. weak rc == 0 이 된다면 비로소 객체는 완전히 죽어 **DEAD** 상태가 됩니다.
+
+
 
 > **💁🏻‍♂️ 좀비 오브젝트가 뭔데요?**
 
@@ -184,15 +196,19 @@
 - https://linux-studying.tistory.com/34
 - https://velog.io/@rnfxl92/Strong-Weak-Unowned
 - https://sihyungyou.github.io/iOS-side-table/
-- https://github.com/apple/swift/blob/d1c87f3c936c41418ee93320e42d523b3f
+- https://github.com/apple/swift/blob/d1c87f3c936c41418ee93320e42d523b3f51b6df/stdlib/public/SwiftShims/RefCount.h#L44
 - https://velog.io/@wonhee010/Zeroing-Object-Life-Cycle
 
+***
 > ### 💁🏻‍♂️ 6-6 : 메모리를 힙과 스택으로 나누는 이유는 무엇일까요?
 
-1. 스택은 이미 할당된 공간을 사용하는 것이기 때문에 빠르고, 힙은 동적 할당을 해서 pointer 로 접근을 합니다. 
+1. 메모리에서 **힙 영역과 스택 영역은 각자 역할이 다릅니다.** 힙 영역은 프로그램 실행 중 동적으로 메모리를 할당하는 공간이고, 스택 영역은 함수 매개변수나 지역변수 등 실행 중이 아닌 정적으로 메모리를 할당하는 공간입니다.
 
-2. 예를 들어 함수 내에서 객체의 값을 변경해줬다고 했을 때, **함수가 할 일을 마치고 스택에서 pop 되어도 변경된 객체의 값은 유지되어야 합니다.** 그래서 스택과 별도로 객체 데이터를 저장하기 위해서 힙이 필요합니다.
+2. **힙 영역의 메모리 공간의 할당과 해제는 개발자가 직접 관리**해주어야 하고, **스택 영역의 메모리는 append 와 pop 을 반복하며 자동으로 관리**됩니다.
 
+3. **상황별로 처리해주어야 하는 메모리의 역할과 종류가 다르기 때문**에 힙 영역과 스택 영역을 나누어 설계함으로써 효율적인 메모리 관리를 할 수 있게 한 것입니다.
+
+- chat GPT
 - https://velog.io/@heyksw/Kotlin-Object%EC%99%80-Class
 
 ***
@@ -213,30 +229,33 @@
 - 동적 할당으로 인스턴스가 생성되면 해당 정보는 HeapObject 라는 struct로 관리됩니다.
 - HeapObject 에는 동적 할당되는 객체를 구성하는 데이터 즉 reference count 와 type meta data 를 갖습니다.
 ```
-
+***
 > ### 💁🏻‍♂️ 7-2 : ARC는 compile time에 실행되는데 어떻게 동적으로 실행되는 것들의 reference count를 세고 메모리 관리를 할 수 있나요 ?
 
-1. ARC 는 compile time 에 자동으로 retain 과 release 를 적절한 위치에 삽입해줍니다. MRC 에서 수동으로 작성하던 메서드를 자동으로 작성해줍니다.
+1. **ARC 는 compile time 에 자동으로 retain 과 release 코드를 적절한 위치에 삽입**해줍니다. MRC 에서 수동으로 작성하던 메서드를 자동으로 작성해줍니다.
 
 2. Run time에 코드가 실행되다가 retain/release 에 의해 count 가 0이 되면 메모리를 해제합니다.
-
+***
 > ### 💁🏻‍♂️ 7-3 :  ARC와 GC는 어떤 차이점이 있나요? 
 
-1. ARC는 컴파일 타임에 실행되고, GC는 런타임에 실행됩니다.
+1. **ARC는 컴파일 타임에 실행**되고, **GC는 런타임에 실행**됩니다.
 
-2. 이에 따라 ARC는 런타임 성능이 좋아진다는 장점을 갖지만, 앱 실행중 순환참조 발생시 매우 치명적이라는 단점을 갖습니다.
+2. 이에 따라 **ARC는 런타임 성능이 좋아진다는 장점**을 갖지만, **앱 실행중 순환참조 발생시 매우 치명적이라는 단점**을 갖습니다.
 
-3. GC는 런타임에 참조를 계속 추적하는 리소스가 필요하다는 단점을 갖지만, ARC에 비해 치명적인 메모리 누수를 막을 확률이 높다는 장점을 갖습니다.
+3. **GC는 런타임에 참조를 계속 추적하는 리소스가 필요하다는 단점**을 갖지만,** ARC에 비해 치명적인 메모리 누수를 막을 확률이 높다는 장점**을 갖습니다.
 
 ```
 😀 ARC와 GC는 모두 힙메모리를 관리한다는 공통점을 갖습니다.
 ```
-
+***
 > ### 💁🏻‍♂️ 7-4 :  ARC가 메모리 해제를 할 수 없는 상황에 대해 설명해보세요. GC는 해결할 수 있을까요?
 
 1. ARC의 경우 단순히 **컴파일 타임에 reference counting** 을 통해 메모리 관리를 하기 때문에 순환참조가 발생할 경우 메모리 해제를 하기 어렵습니다.
 
-2. GC는 **런타임에 Mark-and-Sweep** 방식으로 모든 인스턴스를 체크합니다. 따라서 순환참조가 발생하더라도 메모리를 해제할 수 있습니다.
+2. GC는 **런타임에 Mark-and-Sweep** 방식으로 모든 인스턴스를 체크합니다. 따라서 **순환참조가 발생하더라도 메모리를 해제할 수 있습니다.**
+
+   - **Mark** : 메모리 영역을 탐색하며 사용중인 객체를 표시 
+   - **Sweep** : 표시 되지 않은 객체를 메모리에서 제거
 
 - https://sujinnaljin.medium.com/ios-arc-%EB%BF%8C%EC%8B%9C%EA%B8%B0-9b3e5dc23814
 - https://babbab2.tistory.com/26
@@ -247,13 +266,15 @@
 
 > ### 💁🏻‍♂️ 8-1 :  Delegate 패턴에 대해 설명해주세요
 
-1. Delegate 패턴은 어떤 객체가 해야 하는 일을 부분적으로 **확장해서 구체적으로 대신 처리**하게 합니다.
+1. Delegate 패턴은 **객체 간의 커뮤니케이션을 위한 디자인 패턴 중 하나**입니다. 이 패턴은 **객체 간의 결합도를 낮추고, 유연한 앱 구조를 구현**하는데 도움을 줍니다.
 
-2. 프로토콜에 정의된 내용을 누군가 대신해주길 바라며 떠넘깁니다 (delegating). 그리고 일을 위임받은 자 (delegated) 는 delegate = self 해서 그 일을 구체적으로 대신해줍니다.
+2. Delegate 패턴은 **어떤 객체 A가 해야 하는 일을 다른 객체 B에서 부분적으로 확장해서 대신 처리**하게 합니다. 
 
-3. 델리게이트 패턴을 사용함으로써 **느슨한 결합**을 가질 수 있습니다. **프로토콜을 만족하기만 하면** 그 누구든 일을 대신해줘도 상관 없다는 뜻인데, 이는 요구 사항이 변경될 경우 작업을 매우 쉽게 수정할 수 있다는 뜻과도 같습니다. **다른 객체로 교체해도 잘 동작**하는 코드를 짤 수 있습니다.
+3. 프로토콜에 정의된 내용을 누군가 대신해주길 바라며 떠넘깁니다 (delegating). 그리고 일을 위임받은 자 (delegated) 는 delegate = self 해서 그 일을 구체적으로 대신해줍니다.
 
-4. 그리고 델리게이트 패턴은 **책임 분리를 촉진**합니다. 기능을 위임할 수 있는 객체가 있다는 것은 그만큼 **현재 객체에서 책임할 부분이 적어진다**는 뜻이기 때문입니다.
+4. 델리게이트 패턴을 사용함으로써 **느슨한 결합**을 가질 수 있습니다. **프로토콜을 만족하기만 하면** 그 누구든 일을 대신해줘도 상관 없다는 뜻인데, 이는 요구 사항이 변경될 경우 작업을 매우 쉽게 수정할 수 있다는 뜻과도 같습니다. **다른 객체로 교체해도 잘 동작**하는 코드를 짤 수 있습니다.
+
+5. 그리고 델리게이트 패턴은 **책임 분리를 촉진**합니다. **기능을 위임할 수 있는 객체가 있다는 것은 그만큼 현재 객체에서 책임할 부분이 적어진다**는 뜻이기 때문입니다.
 
 - 애초에 여기서 예를 들어버려서 설명해도 좋을 것 같다. ex) UITextViewDelegate
 
@@ -306,6 +327,8 @@ someCircus.showFlying()
 
 ```
 
+- chat GPT
+
 - https://velog.io/@heyksw/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-24
 
 ***
@@ -318,6 +341,8 @@ someCircus.showFlying()
 
 3. **UICollectionViewDelegate** 의 didSelectItemAt. 셀이 선택되었음을 감지.
 
+4. **UITableViewDelegate** 의 셀을 선택하거나 스크롤할 때 알림을 받음.
+
 ```swift
 // 예를 들어 이런식으로 사용된다.
 
@@ -327,6 +352,7 @@ class MyViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // 핵심
         myTextView.delegate = self
     }
     
@@ -349,15 +375,14 @@ open class UITextView : UIScrollView, UITextInput, UIContentSizeCategoryAdjustin
 // 즉 myTextView 가 delegating 한 것이고(= Circus), 
 // MyViewController 가 delegated 된 것이다(= Eagle)
 // MyViewController 는 UITextViewDelegate 를 채택했기 때문에 위임받은 일을 할 수 있다.
-// myTextView 에서 UITextViewDelegate 가 하는 일을 확장시키고 싶었고,
+// myTextView 에서 UITextViewDelegate 가 하는 기능을 확장시키고 싶었고,
 // 그 확장한 일을 MyViewController 에서 받아, 대신 처리한 것이다.
 ```
-
 ***
 
 > ### 💁🏻‍♂️ 8-3 :  Delegate 패턴과 Escaping Closure 둘다 데이터를 전달할 수 있는데 각각 어떤 상황에 좋을까요?
 
-1. Delegate 패턴은 프로토콜을 사용하기 때문에 좀더 엄격하게 행동을 규정할 수 있습니다.
+1. Delegate 패턴은 프로토콜을 사용하기 때문에 좀 더 엄격하게 행동을 규정할 수 있습니다.
 
 2. Delegate 패턴은 중간에 쓰레드가 교체되지 않고 Escaping Closure 는 쓰레드가 교체됩니다. 따라서 쓰레드가 교체되지 않는 것을 바란다면 Delegate 패턴을 쓰는 것이 좋습니다. (컨설팅 때 들은 내용인데 구글링 해도 못찾겠음)
 
@@ -373,7 +398,7 @@ open class UITextView : UIScrollView, UITextInput, UIContentSizeCategoryAdjustin
 
 3. 하지만 다른사람이 NotificationCenter 로 구현된 옵저버 패턴을 봤을 때, **정확히 어떤 객체들이 구독했는지 파악하기 까다롭습니다. **
 
-4. Delegate 를 사용할 경우 다른 사람이 봤을 때 코드를 더 직관적으로 이해하기 좋습니다.
+4. **Delegate 를 사용할 경우 다른 사람이 봤을 때 코드를 더 직관적으로 이해하기 좋습니다.**
 
 - https://neph3779.github.io/ios/DelegateVsNotification/
 
@@ -403,9 +428,9 @@ open class UITextView : UIScrollView, UITextInput, UIContentSizeCategoryAdjustin
 
 > ### 💁🏻‍♂️ : KVC 와 KVO 에 대해 설명해주세요.
 
-1. **KVC 는 Key Value Coding.** 객체의 값을 직접 사용하지 않고, Key Path를 이용해 간접적으로 사용하고 수정하는 방식입니다.
+1. **KVC 는 Key Value Coding.** **객체의 값을 직접 사용하지 않고, Key Path를 이용해 간접적으로 사용하고 수정**하는 방식입니다.
 
-2. **KVO 는 Key Value Observing.** Key로 등록한 변수를 관찰하며 값이 변할때마다 어떠한 동작을 수행하는 것입니다. 프로퍼티 옵저버 willSet didSet 과 매우 유사하게 동작합니다.
+2. **KVO 는 Key Value Observing.** **Key로 등록한 변수를 관찰하며 값이 변할때마다 어떠한 동작을 수행하는 것**입니다. 프로퍼티 옵저버 willSet didSet 과 매우 유사하게 동작합니다.
 
 > 💁🏻‍♂️ : 그럼 프로퍼티 옵저버와 KVO의 차이점은 무엇인가요?
 
@@ -482,7 +507,7 @@ obj.data = "Data2"
 
 3. 그리고 **UIApplication** 이라는 객체를 생성합니다.
 
-4. **UIApplication 은 실행중인 앱을 제어하는 핵심 객체**이고, Main Run Loop를 실행합니다.
+4. **UIApplication 은 실행중인 앱을 제어하는 핵심 객체이고, Main Run Loop를 실행**합니다.
 
 5.  **모든 앱은 단 하나의 UIApplication 인스턴스를 가지고**, UIApplication.shared 로 접근할 수 있습니다.
 
@@ -812,6 +837,12 @@ task B end
 
 - 함수형 프로그래밍은 **순수 함수를 기반으로 로직을 구성**함으로써 휴먼 에러를 줄이고, 가독성을 높이는 프로그래밍 기법입니다.
 
+- 함수형 프로그래밍의 특징은 다음과 같습니다.
+
+1. **함수 안의 코드가 함수 외부의 상태를 변경하지 않습니다.** 함수 외부에 영향을 끼치지 않습니다.
+
+2. **함수를 1급 객체로 간주합니다.** 함수를 매개변수나 리턴값으로 사용할 수 있게 됩니다. **이로 인해 함수를 조합해서 새로운 로직을 만들어냅니다.**
+
 ***
 > ### 💁🏻‍♂️ 14-2 : 순수함수란 무엇인지 설명하시오.
 
@@ -953,48 +984,6 @@ task B end
 - shallow copy 는 주소 값을 복사하기 때문에 참조하고 있는 실제 값은 같습니다.
 
 - deep copy 는 실제 값을 새로운 메모리 공간에 복사합니다.
-
-```swift
-Swift에서 클래스 인스턴스의 딥 복사는 두 가지 방법으로 수행될 수 있습니다.
-
-1. NSCopying 프로토콜을 구현하여 딥 복사하기
-NSCopying 프로토콜을 구현하면 클래스 인스턴스를 복사할 수 있습니다. NSCopying 프로토콜을 구현하려면 클래스가 copy(with:) 메서드를 구현하도록 요구합니다.
-
-class MyClass: NSCopying {
-    var myProperty: Int
-
-    init(myProperty: Int) {
-        self.myProperty = myProperty
-    }
-
-    func copy(with zone: NSZone? = nil) -> Any {
-        let copy = MyClass(myProperty: myProperty)
-        return copy
-    }
-}
-
-let original = MyClass(myProperty: 42)
-let copied = original.copy() as! MyClass
-
-2. Codable 프로토콜을 활용하여 딥 복사하기
-Codable 프로토콜을 사용하여 클래스 인스턴스를 직렬화하고 다시 역직렬화하여 복사본을 만들 수 있습니다. 이 방법은 Swift 4에서 도입되었습니다.
-
-class MyClass: Codable {
-    var myProperty: Int
-
-    init(myProperty: Int) {
-        self.myProperty = myProperty
-    }
-}
-
-let original = MyClass(myProperty: 42)
-let data = try! JSONEncoder().encode(original)
-let copied = try! JSONDecoder().decode(MyClass.self, from: data)
-
-위의 두 가지 방법 중 하나를 사용하여 딥 복사를 수행할 수 있습니다. 
-선택한 방법은 클래스에 따라 다르며, 클래스가 Codable을 구현하고 있는 경우 Codable 방법이 더 효율적일 수 있습니다.
-
-```
 
 ***
 > ### 💁🏻‍♂️ 16-7 : Synchronous 방식과 Asynchronous 방식으로 URL Connection을 처리할 경우의 장단점을 비교하시오.
