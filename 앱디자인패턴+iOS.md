@@ -985,6 +985,37 @@ task B end
 
 - deep copy 는 실제 값을 새로운 메모리 공간에 복사합니다.
 
+```swift
+Swift에서 클래스 인스턴스의 딥 복사는 두 가지 방법으로 수행될 수 있습니다.
+1. NSCopying 프로토콜을 구현하여 딥 복사하기
+NSCopying 프로토콜을 구현하면 클래스 인스턴스를 복사할 수 있습니다. NSCopying 프로토콜을 구현하려면 클래스가 copy(with:) 메서드를 구현하도록 요구합니다.
+class MyClass: NSCopying {
+    var myProperty: Int
+    init(myProperty: Int) {
+        self.myProperty = myProperty
+    }
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = MyClass(myProperty: myProperty)
+        return copy
+    }
+}
+let original = MyClass(myProperty: 42)
+let copied = original.copy() as! MyClass
+2. Codable 프로토콜을 활용하여 딥 복사하기
+Codable 프로토콜을 사용하여 클래스 인스턴스를 직렬화하고 다시 역직렬화하여 복사본을 만들 수 있습니다. 이 방법은 Swift 4에서 도입되었습니다.
+class MyClass: Codable {
+    var myProperty: Int
+    init(myProperty: Int) {
+        self.myProperty = myProperty
+    }
+}
+let original = MyClass(myProperty: 42)
+let data = try! JSONEncoder().encode(original)
+let copied = try! JSONDecoder().decode(MyClass.self, from: data)
+위의 두 가지 방법 중 하나를 사용하여 딥 복사를 수행할 수 있습니다. 
+선택한 방법은 클래스에 따라 다르며, 클래스가 Codable을 구현하고 있는 경우 Codable 방법이 더 효율적일 수 있습니다.
+```
+
 ***
 > ### 💁🏻‍♂️ 16-7 : Synchronous 방식과 Asynchronous 방식으로 URL Connection을 처리할 경우의 장단점을 비교하시오.
 
@@ -1042,4 +1073,5 @@ var constraint = NSLayoutConstraint.constraints(withVisualFormat: format1,
 
 2. 라이브러리 활용 RxSwift
 	RxSwift 를 사용해본 경험이 있습니다. RxSwift 를 활용하면 멀티 쓰레드 및 비동기 작업들을 편리하게 수행할 수 있고, Scheduler, Subject, Relay 등이나 유용한 메서드를 사용할 수 있게 됩니다.
+
 
