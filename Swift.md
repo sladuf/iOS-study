@@ -834,48 +834,303 @@ let name : Name = "김제니"
 
 > ### 💁🏻‍♂️ 10-2 : Protocol Oriented Programming과 Object Oriented Programming의 차이점을 설명하시오.
 
-## function / method
-> ### instance 메서드와 class 메서드의 차이점을 설명하시오.
-> ### class 메서드와 static 메서드의 차이점을 설명하시오.
-> ### function과 method의 차이를 말해보세요. 
-> ### inout은 언제 사용하면 좋을까요?
-> ### defer란 무엇인지 설명하시오.
-> ### defer가 호출되는 순서는 어떻게 되고, defer가 호출되지 않는 경우를 설명하시오.
+## 11. function / method
 
-## 프로퍼티
-> ### 연산 프로퍼티와 클로저를 가지는 저장 프로퍼티의 차이를 설명해보세요. 
-> ### property wrapper에 대해서 설명하시오.
-> ### Swift Property 종류에 대해 설명해주세요
+> ### 💁🏻‍♂️ 11-1 : function과 method의 차이를 말해보세요.
+
+1. funtion은 특정 객체에 속해있지 않은 코드 블록입니다.
+2. method는 클래스, 구조체, 열거형 등 특정 객체 안에서 정의 되는 함수입니다.
+3. function은 외부 객체의 상태를 변경할 수 있지만, method는 자기가 속해 있는 객체의 프로퍼티나 메서드만 접근할 수 있습니다.
+
+> ### 💁🏻‍♂️ 11-2 : instance 메서드와 class 메서드의 차이점을 설명해주세요.
+
+1. 인스턴스 메서드는 인스턴스에 속한 함수를 뜻합니다. 인스턴스 내부의 값을 변경하는 등 인스턴스와 관련된 일을 합니다. (우리가 일반적으로 객체 안에 선언해서 사용하는 함수가 인스턴스 메서드임!!)
+2. 클래스 메서드는 **클래스의 타입 메서드** 중 하나로, 타입 자체에 호출이 가능한 메서드 입니다. 인스턴스를 생성하지 않아도 타입을 통해 메서드를 호출 할 수 있습니다.
+
+> ### 💁🏻‍♂️ 11-3 : class 메서드와 static 메서드의 차이점을 설명해주세요.
+
+1. 두 메서드는 클래스의 타입 메서드 입니다.
+2. 타입 메서드는 타입 자체에 호출이 가능한 메서드로, 인스턴스를 생성하지 않아도 호출할 수 있습니다.
+3. **static** 메서드는 상속 후 메서드 **재정의가 불가능** 하고, **class** 메서드는 상속 후 **재정의 할 수 있습니다.**
+
+> ### 💁🏻‍♂️ 11-4 : 함수에서 외부에 있는 값타입 데이터를 바꾸고 싶으면 어떻게 해야 될까요?
+
+1. 일반적으로 함수의 인자는 상수 값으로 전달되어 데이터를 변경할 수 없습니다.
+2. 함수 내에서 데이터를 변경하고자 하는 경우에는 **inout** 키워드를 사용할
+3. inout 키워드는 인자의 타입 앞에 선언합니다. 이는 해당 인자의 **메모리 주소를 전달** 받겠다는 의미입니다.
+4. 함수를 호출할 때에는 인자 앞에 `&`를 붙여 **메모리 주소를 전달**한다고 표시 해주어야 합니다.
+5. inout은 함수 호출시 메모리 주소를 전달해야 하기 때문에 **오버헤드**가 발생할 수 있습니다.
+
+```swift
+func functionName(_ value : inout String) {
+    value = "change"
+}
+
+var someValue: String = "hello"
+functionName(&someValue)
+print(someValue) // "change"
+```
+
+> ### 💁🏻‍♂️ 11-5 :  defer란 무엇인지 설명해주세요.
+
+1. defer는 코드 블록을 지연하여 함수 실행시 가장 마지막에 실행되도록 하는 키워드 입니다.
+2. defer안에 있는 내용은 함수가 반환하기 직전에 실행됩니다.
+3. 함수내에서 일어나는 일 중 가장 마지막에 정리해야 하는 일을 처리할 수 있습니다. (리소스 해제, 임시 데이터 삭제, 파일 닫기 etc)
+
+> **💁🏻‍♂️💁🏻‍♂️ defer가 여러개일 경우 호출되는 순서는 어떻게 되고, defer가 호출되지 않는 경우는 없을까요?**
+
+1. defer가 여러개일 경우 함수 내에서 선언한 순서의 역순으로 실행됩니다. 함수 코드 블록의 가장 아래에 있는 defer부터 순차적으로 실행됩니다.
+2. 만약 함수를 실행중인 스레드가 비정상적으로 종료되거나, defer를 읽기 전에 함수가 return 되는 경우에는 defer를 실행하지 않습니다.
+3. guard문을 사용하게 되면 옵셔널 바인딩에 실패하는 경우, guard문 아래에 있는 defer가 실행되지 않을 수 있습니다.
+
+```swift
+func say(){
+    defer {
+        print("나는 마지막이다!")
+    }
+    defer {
+        print("나는 세번째")
+    }
+    print("내가 제일 처음 호출되겠지")
+    defer {
+        print("나는 두번째로 호출되겠지")
+    }
+}
+say() // print에 적힌 순서대로 출력
+```
+
+> **💁🏻‍♂️💁🏻‍♂️ defer를 언제 사용할까요?**
+
+1. 함수가 종료되기 직전에 실행되어야 하는 코드를 작성할 수 있습니다.
+2. 예를들어 함수에서 lock을 걸어 동기화문제를 해결 하는 경우, 함수가 종료되기 직전에 unlock을 해주어야 데드락에 걸리지 않습니다.
+3. 함수가 종료될 때 마다 해야 하는 행위를 함수 내에 있는 여러개의 return 앞에 써주기 보다는, defer를 함수 상단에 선언해주면 함수가 알아서 종료될 때 해야하는 행위를 수행할 수 있습니다.
+
+## 12. 프로퍼티
+
+> ### 💁🏻‍♂️ 12-1 : 저장 프로퍼티와 연산 프로퍼티의 차이점을 설명해 주세요.
+
+1. 저장 프로퍼티는 객체 내에서 값을 저장할 때 사용하는 기본적인 프로퍼티 입니다.
+2. 변수나 상수로 선언할 수 있으며, 초기 값을 설정할 수 있습니다.
+3. 연산 프로퍼티는 값을 저장하지 않고 인스턴스의 내부 또는 외부 값을 연산을 하는 프로퍼티 입니다.
+4. 연산 프로퍼티를 통해 인스턴스 내부에 있는 은닉화 된 값을 간접적으로 수정 또는 접근 할 수 있습니다.
+
+> **💁🏻‍♂️💁🏻‍♂️ 메서드를 사용하면 되는데 굳이 연산 프로퍼티를 쓰는 이유가 뭘까요?**
+
+1. 인스턴스의 외부에서 내부 값에 접근하기 위해서는 getter, setter 두 개의 메서드를 구현해야 합니다.
+2. 이는 두 메서드가 분산 구현되어 코드의 가독성이 나빠질 수 있습니다.
+3. 연산 프로퍼티는 그 역할을 동시에 하여 간편하고 직관적인 코드를 작성할 수 있습니다.
+4. 하지만, 연산 프로퍼티는 **쓰기 전용으로 구현할 수 없으므로** 쓰기 전용을 구현하기 위해서는 메서드를 사용해야 합니다.
+
+> ### 💁🏻‍♂️ 12-2 : 지연 저장 프로퍼티에 대해서 설명해 주세요.
+
+1. 지연 저장 프로퍼티는 해당 프로퍼티가 호출 될 때 값을 초기화 합니다.
+2. **lazy** 키워드를 프로퍼티 앞에 붙여 사용할 수 있습니다.
+3. 지연 저장 프로퍼티를 사용하면 성능저하나 공간 낭비를 줄일 수 있습니다.
+
+> ###  💁🏻‍♂️ 12-3 : property warrper에 대해서 설명해 주세요.
+
+1. 프로퍼티 래퍼는 여러 프로퍼티에 대해 반복되는 코드를 재사용할 수 있도록 해주는 기능입니다.
+2. 프로퍼티 래퍼를 사용하여 **보일러 플레이트를 코드**를 제거할 수 있습니다.
+3. @propertyWrapper키워드를 사용해 구조체를 정의하고 내부에 프로퍼티에 대한 동작을 정의해두면, 프로퍼티를 선언할 때 프로퍼티 래퍼를 키워드로 붙여 미리 정의한 동작을 재사용할 수 있습니다.
+4. 프로퍼티를 가질 수 있는 클래스, 구조체, 열거형에서만 사용할 수 있습니다.
+
+```
+🤔 보일러 플레이트 코드
+특정 작업을 수행하기 위해 반복적으로 작성되는 코드를 의미합니다.
+
+```
+
+- 기본 틀은 다음과 같습니다.
+```swift
+//property wrapper 임을 알려주는 어노테이션 입니다.
+@propertyWrapper
+struct Wrapper {
+    var value : String
+    
+    //꼭!! 작성해야 하는 연산 프로퍼티 입니다. 중복되는 코드를 작성합니다.
+    var wrappedValue: String {
+        get { "Value : \(value)"}
+        set { value = newValue }
+    }
+}
+```
+
+- 네트워크 에러 상태 코드를 정의하는 상황을 예시로 들어 보겠습니다.
+
+```swift
+struct NotFound {
+    private var _alert : String = "404 not found"
+    
+    **var alert : String {
+        get{ "Alert!! \(_alert)" }
+        set{ _alert = newValue }
+    }**
+    
+    init(_ value : String){
+        self._alert = value
+    }
+}
+
+struct Forbidden {
+    private var _alert : String = "403 forbidden"
+    
+    **var alert : String {
+        get{ "Alert!! \(_alert)" }
+        set{ _alert = newValue }
+    }**
+    
+    init(_ value : String){
+        self._alert = value
+    }
+}
+```
+- 위 코드를 프로퍼티 래퍼를 적용하여 다음과 같이 중복을 제거할 수 있습니다.
+
+```swift
+@propertyWrapper
+struct Alert {
+    private var _alert : String
+    
+    var wrappedValue : String {
+        get{ "Alert!! \(_alert)" }
+        set{ _alert = newValue }
+    }
+    
+    init(wrappedValue alert: String) {
+        self._alert = alert
+    }
+}
+
+struct NotFound {
+    @Alert var alert : String = "404 not found"
+}
+
+struct Forbidden {
+    @Alert var alert : String = "403 forbidden"
+}
+```
+
+- Userdefault에 프로퍼티 래퍼를 적용하면 쉽게 접근하고 수정할 수 있습니다.
+
+```swift
+@propertyWrapper
+struct UserDefault<T> {
+    let key : String
+    let value : T
+    
+    var wrappedValue : T {
+        get { UserDefaults.standard.object(forKey: key) as? T ?? self.value }
+        set { UserDefaults.standard.set(newValue, forKey: key)}
+    }
+}
+
+class UserManager {
+    
+    @UserDefault(key: "userName", value: nil) //기본값 설정
+    static var userName : String?
+    @UserDefault(key: "autoLogin", value: false) //기본값 설정
+    static var autoLogin : Bool
+
+}
+```
 
 ***
 
-### Subscripts에 대해 설명하시오.
-### String은 왜 subscript로 접근이 안되는지 설명하시오. 
+## 13. 제네릭
+
+1. 제네릭은 타입을 일반화하여 재사용 가능한 함수나 객체를 만들 수 있는 기능입니다.
+2. 제네릭을 통해 코드의 재사용성과 유지보수성을 향상 시킬 수 있습니다.
+
+> **💁🏻‍♂️💁🏻‍♂️ 제네릭의 타입 제약**
+
+1. 제네릭은 타입을 일반화하기 때문에 어떤 타입도 수용할 수 있지만, 제약을 걸어 타입을 제한할 수 있습니다.
+2. 제네릭 타입을 명시할 때 특정 프로토콜을 따르는 타입만 사용할 수 있도록 제약할 수 있습니다.
+3. 타입 제약은 클래스나 프로토콜만 가능합니다.
+
+## 14. Subscript
+
+1. subscript는 클래스, 구조체, 열거형 등에서 **컬렉션 요소**에 접근하는 방법을 제공하는 기능입니다.
+2. 컬렉션 요소는 배열, 딕셔너리, 집합 등이 있습니다.
+3. subscript는 index를 파라미터로 받는 함수를 만들어 함수 내에서 get과 set을 작성해야 합니다. get만 작성하여 읽기 전용으로 구현할 수도 있습니다.
+4. subscript를 작성한 후에는 인스턴스의 이름 뒤에 대괄호([])를 붙여서 호출할 수 있습니다.
+5. subscript는 구현부 또는 익스텐션 구현부에 위치해야 합니다.
+
+```swift
+class MyArray {
+    var array = [Int]()
+
+    subscript(index: Int) -> Int {
+        get {
+            return array[index]
+        }
+        set(newValue) {
+            array[index] = newValue
+        }
+    }
+}
+
+var myArray = MyArray()
+myArray.array = [1, 2, 3, 4, 5]
+
+let value = myArray[2] // 3
+```
+
+> **💁🏻‍♂️💁🏻‍♂️ String도 서브스크립트로 접근할 수 있나요?**
+
+네, String은 Character 컬렉션 타입 입니다. 따라서 특정 문자에 접근하기 위해 인덱스를 사용할 수 있습니다.
+
+```swift
+class MyClass {
+    var myString = "Hello, world!"
+    
+    subscript(index: Int) -> Character {
+        get {
+            return myString[myString.index(myString.startIndex, offsetBy: index)]
+        }
+        set {
+            let startIndex = myString.index(myString.startIndex, offsetBy: index)
+            myString.replaceSubrange(startIndex...startIndex, with: String(newValue))
+        }
+    }
+}
+
+var myClass = MyClass()
+print(myClass[1]) // "e"
+
+myClass[0] = "J"
+print(myClass.myString) // "Jello, world!"
+```
+
+***
+
+## 15. 그 외
+
+> ### 💁🏻‍♂️ 15-1 : Result타입에 대해 설명해 주세요.
+
+성공 혹은 실패에 대한 정보를 담는 타입입니다. 제네릭 열거형으로 구현되어 있습니다.
+
+> **💁🏻‍♂️💁🏻‍♂️ 옵셔널과 차이점?**
+
+옵셔널은 값이 없을 때 무조건 nil을 가지고 있지만, Result 타입은 실패했을 때 오류에 대한 정보를 담은 연관 값을 가지고 있습니다.
 
 
-### Generic이 무엇이고 어떻게 동작하는지 설명해주세요.
+> ### 💁🏻‍♂️ 15-2 : 스위프트에서 추상 클래스를 만들려면 어떻게 해야할까요? 
 
+1. 스위프트는 추상 클래스 문법을 지원하지 않지만 **프로토콜**을 통해 동일한 동작을 하도록 할 수 있습니다.
+2. 프로퍼티와 메서드의 원형을 프로토콜에 선언해두고, 프로토콜을 **extension**하여 프로토콜 메서드의 기본 구현체를 만들어주면 추상클래스와 동일한 개념의 구현을 할 수 있습니다.
 
+> ### 💁🏻‍♂️ 15-3 : Self와 self의 차이가 뭘까요?
 
-### Generic에 대해 설명하시오.
+1. 대문자 Self는 타입 자체를 나타내는 **키워드** 입니다.
+2. class, struct의 자기 자신의 타입을 나타내거나, 프로토콜에서 해당 프로토콜을 채택하는 타입을 나타낼 때 사용됩니다.
+3. 소문자 self는 **예약어**로 현재 인스턴스를 나타냅니다. 즉, 해당 인스턴스에 대한 **참조**를 나타냅니다.
 
-### Result타입에 대해 설명하시오.
+> ### 💁🏻‍♂️ 15-4 : @objc는 언제 사용하나요?
 
+1. Objective-C 런타임에 swift 메서드를 호출하기 위해서 사용할 수 있습니다.
+2. swift에서 프로토콜의 메서드를 호출할 때 static 디스패치를 사용하는데, @objc를 사용하면 메서드를 동적 디스패치로 동작할 수 있습니다. 이를 통해 유연성을 제공합니다.
 
-
-### 스위프트에서 추상 클래스를 만들려면 어떻게 해야할까요? 
-
-
-
-### Subscription에 대해서 설명해주세요.
-
-
-
-
-### Self와 self의 차이가 뭘까요?
-
-### @objc는 언제 사용하나요?
-
+***
 
 
 ### autoclosure attribute에 대해서 설명해보세요. 
