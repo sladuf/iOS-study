@@ -80,6 +80,9 @@ feedTableView.rx.willDisplayCell
 
 - Observable 은 Disposable 타입을 반환합니다.
 
+- disposable -> dispose() 를 정의해둔 프로토콜
+
+
 ```swift
 let observable = Observable<Int>.create { observer in
     observer.onNext(1)
@@ -91,7 +94,7 @@ let observable = Observable<Int>.create { observer in
 
 observable.subscribe(onNext: { value in
     print(value)
-})
+}).dispose()
 
 ```
 
