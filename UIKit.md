@@ -75,7 +75,7 @@
 
 > **💁🏻‍♂️💁🏻‍♂️ 그럼 first responder에 대해서 말해보실래요?**
 
-1. UIKit에서는 Responder들을 연결해서 관리합니다. 이를 Responder Chain이라고 합니다.
+1. UIKit에서는 Responder들을 연결해서 관리합니다. 이를 Responder Chain이라고 합니다. Responder Chain은 링크드 리스트 구조를 가지고 있습니다.
 2. 이벤트를 받은 Responder는 자신이 이벤트를 처리하거나 Responder Chain에 있는 다음 Responder에게 이벤트를 전달할 수 있습니다.
 3. First Responder는 이벤트를 가장 먼저 전달받는 Responder라는 의미입니다. 즉, 이벤트가 발생하면 가장 먼저 처리할 Responder라는 것입니다.
 
