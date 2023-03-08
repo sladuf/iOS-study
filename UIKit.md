@@ -98,7 +98,7 @@
 
 ## 5. View
 
-> ### 💁🏻‍♂️💁🏻‍♂️ 5-1 : UIView에 대해서 설명해 주세요
+> ### 💁🏻‍♂️ 5-1 : UIView에 대해서 설명해 주세요
 
 1. UIView는 직사각형 모양의 화면을 관리하는 객체입니다.
 2. UIKit Core Graphics를 사용하여 직사각형 영역에 콘텐츠를 그립니다.
@@ -117,7 +117,7 @@
 6. layer를 사용하면 조금더 복잡한 애니메이션과 퍼포먼스를 보여줄 수 있습니다.
 - [https://ios-development.tistory.com/977](https://ios-development.tistory.com/977)
 
-> ### 💁🏻‍♂️💁🏻‍♂️ 5-2 : UIWindow에 대해서 설명해 주세요
+> ### 💁🏻‍♂️ 5-2 : UIWindow에 대해서 설명해 주세요
 
 1. 뷰들을 담을 수 있는 비어있는 컨테이너 입니다. 이벤트를 전달해주는 매개체 역할을 합니다.
 2. iOS 앱은 최소 하나 이상의 윈도우를 가지고 있습니다.
@@ -125,10 +125,36 @@
 
 ***
 
+## 6. tableView & collectionView
 
-### 자신만의 Custom View를 만들려면 어떻게 해야하는지 설명하시오.
+> ### 💁🏻‍♂️ 6-1 : TableView를 동작 방식을 설명해 주세요
 
-### TableView를 동작 방식과 화면에 Cell을 출력하기 위해 최소한 구현해야 하는 DataSource 메서드를 설명하시오.
+> ### 💁🏻‍♂️ 6-2 : TableView 화면에 Cell을 출력하기 위해 최소한 구현해야 하는 DataSource 메서드를 설명해 주세요
+
+- 섹션마다 표시할 셀의 개수를 반환하는 메서드
+    - `func tableView(UITableView, numberOfRowsInSection: Int)`
+- 인덱스마다 어떤 셀을 사용할지 반환하는 메서드로, cell에 데이터를 바인딩하거나 조작하여 return 합니다.
+    - `func tableView(UITableView, cellForRowAt: IndexPath)`
+
+> ### 💁🏻‍♂️ 6-3 : TableView와 CollectionView의 차이점을 설명해 주세요
+
+1. tableView는 세로 스크롤만 지원하며, 단일 컬럼, 단일 섹션 레이아웃만 지원합니다.
+2. collectionView는 상하좌우 스크롤이 가능하며, 다중 컬럼을 가질 수 있고, 다양한 레이아웃을 옵션을 지원합니다.
+
+
+
+## n. 추가 개념
+
+> ### 💁🏻‍♂ n-1 : UIKit 클래스들을 다룰 때 꼭 처리해야하는 애플리케이션 쓰레드 이름은 무엇인가?
+
+- mainThread : UIKit은 UI를 다루는 프레임워크 입니다. UI와 관련된 코드는 반드시 mainThread에서 동작해야 합니다.
+
+
+> ### 💁🏻‍♂️ n-2 : 자신만의 Custom View를 만들려면 어떻게 해야하는지 설명하시오.
+
+1. custom view를 만들기 위해서는 UIView를 반드시 상속해야 합니다.
+2. 이니셜라이저를 만들고 싶은 경우에는 `super.init(frame: CGRect)`를 반드시 호출해야 하며, `required init?(coder: NSCoder)`도 함께 작성해야 합니다.
+
 
 ### 하나의 View Controller 코드에서 여러 TableView Controller 역할을 해야 할 경우 어떻게 구분해서 구현해야 하는지 설명하시오.
 
@@ -146,9 +172,13 @@
 
 ### ViewController의 생명주기를 설명하시오.
 
-### TableView와 CollectionView의 차이점을 설명하시오.
+- viewDidLoad : view가 메모리에 올라온 상태
+- viewWillAppear : view가 메모리에 올라가서 유저에게 보여지기 직전
+- viewDidAppear : view가 유저에게 보이는 중
+- viewWillDisappear : view가 유저에게 사라지는 직전
+- viewWillDisappear : view가 유저에게 사라지는 중
+- viewDidUnload : view가 메모리에서 해제되는 시점
 
-### UIKit 클래스들을 다룰 때 꼭 처리해야하는 애플리케이션 쓰레드 이름은 무엇인가?
 
 ### 뷰의 위치나 크기를 재조정하려면 어떻게 해야하나요?
 
