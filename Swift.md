@@ -1103,7 +1103,7 @@ print(myClass.myString) // "Jello, world!"
 
 ***
 
-## 15. 그 외
+## 15. 추가 개념
 
 > ### 💁🏻‍♂️ 15-1 : Result타입에 대해 설명해 주세요.
 
@@ -1130,11 +1130,61 @@ print(myClass.myString) // "Jello, world!"
 1. Objective-C 런타임에 swift 메서드를 호출하기 위해서 사용할 수 있습니다.
 2. swift에서 프로토콜의 메서드를 호출할 때 static 디스패치를 사용하는데, @objc를 사용하면 메서드를 동적 디스패치로 동작할 수 있습니다. 이를 통해 유연성을 제공합니다.
 
-***
+> ### 💁🏻‍♂️ 15-5 : autoclosure attribute에 대해서 설명해보세요. 
+
+1. **함수 인자에 autoclosure 속성**을 붙이면, 전달되는 **인자 코드를 감싸서 자동으로 클로저로** 만들어줍니다.
+
+2. 다시 말해 **일반 표현의 코드를 클로저 표현의 코드로 만들어주는 역할**을 합니다. 이때 클로저에는 **인자가 없고 리턴값만 존재해야 합니다.**
+
+3. 클로저 호출에 필요한 **중괄호를 없앰으로써 코드의 간결성**을 높일 수 있습니다.
+
+4. Swift에서 @autoclosure를 사용하는 대표적인 예로 **assert()**함수가 있습니다.
+
+```swift
+// @autoclosure 를 사용하지 않은 경우
+func normalPrint(_ closure: () -> Void) {
+    closure()
+}
+
+// 이 함수를 호출할 때 클로저 부분은 다음과 같이 대괄호 {...}로 묶어서 인자를 넣어야 합니다.
+normalPrint({ print("I'm Normal Expression") })
+
+// @autoclosure 를 사용한 경우
+func autoClosurePrint(_ closure: @autoclosure () -> Void) {
+    closure()
+}
+
+// @autoclosure를 이용하면 함수에 클로저를 인자로 사용할때 일반 표현을 사용할 수 있습니다.
+autoClosurePrint(print("I'm AutoClosure Expression"))
+
+```
+
+- https://jusung.github.io/AutoClosure/
 
 
-### autoclosure attribute에 대해서 설명해보세요. 
+> ### 💁🏻‍♂️ 15-6 : Never 반환 타입에 대해 설명해보세요.
 
-### Never 반환 타입에 대해 설명해보세요.
+- **에러 등의 이유로 정상적으로 리턴 되지않는 함수의 리턴 타입**입니다. **실제로 어떤 값을 리턴하지는 않습니다.** (The return type of functions that do not return normally, that is, a type with no values.)
 
-### 모나드에 대해서
+```swift
+func crashAndBurn() -> Never {
+    fatalError("Something very, very bad happened")
+}
+```
+
+- https://developer.apple.com/documentation/swift/never
+
+
+> ### 💁🏻‍♂️ 15-7 : 모나드에 대해서 설명해주세요.
+
+- **모나드는 값이 선택적으로 존재하는 함수 객체(functor)입니다.**
+
+- **함수 객체(functor) = 값을 담고 있는 컨테이너 타입**입니다. 고차 함수 **map 을 적용시킬 수 있다**는 특징이 있습니다. Swift 에서는 Array, Dictionary, Optional 등이 컨테이너 타입입니다.
+
+- **Swift 에서 대표적으로 모나드는 Optional** 이 있습니다.
+
+- Optional 은 값이 **선택적으로 존재**하고, **map 을 적용**시킬 수도 있기 때문입니다.
+
+- 모나드는 함수 객체 안에 포함되는 개념이지만, 함수 객체와의 차이점이 있습니다. 바로 **모나드에는 flatMap (옵셔널 해제 기능 추가) 를 사용할 수** 있고, 모나드가 아닌 함수 객체에는 flatMap 을 사용할 수 없다는 것입니다.
+
+- https://zeddios.tistory.com/449
