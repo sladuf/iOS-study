@@ -275,11 +275,23 @@
 2. NSCache는 이를 방지하기 위해 캐시된 객체의 총 크기를 제한하고, 제한에 도달하면 **LRU알고리즘**을 사용하여 오래 전에 사용된 객체를 제거합니다.
 3. 이런 추가적인 기능 때문에 딕셔너리보다 많은 오버헤드가 발생합니다.
 
+> ### 💁🏻‍♂️  n-6 : setNeedsDisplay와 setNeedsLayout 차이점을 말해주세요.
 
+1. 가장 큰 차이점은 ‘어떤 것을 다시 표현하는가’ 입니다.
+2. 두 함수는 모두 update cycle에 동작합니다. 이 지점에서는 view를 배치하고 다시 그리는 작업을 `요청`합니다.
+3. setNeedsDisplay는 view를 다시 그리는 작업을, setNeedLayout은 layout을 재배치하는 작업을 요청합니다.
 
-### 하나의 View Controller 코드에서 여러 TableView Controller 역할을 해야 할 경우 어떻게 구분해서 구현해야 하는지 설명하시오.
+> **💁🏻‍♂️💁🏻‍♂️ 두 함수를 호출하지 않아도 View가 변경 되는데요?**
 
-### setNeedsLayout와 setNeedsDisplay의 차이에 대해 설명하시오.
+1. UIView에서는 내부에서 setNeedDisplay를 호출하는 경우가 있습니다.
+2. 예를들어 layoutSubview가 호출 될 때, 자동으로 setNeedsDisplay가 호출되어 view를 다시 그릴 것을 요청합니다.
+
+> ### 💁🏻‍♂️ n-7 : 하나의 View Controller 코드에서 여러 TableView Controller 역할을 해야 할 경우 어떻게 구분해서 구현해야 하는지 설명하시오.
+
+- tableView에 tag를 달아 switch문을 사용해서 tag번호 별 데이터소스를 달리 사용할 수 있습니다.
+- ViewController에 childController을 여러개 만들어 TableView를 하나씩 맡아 관리할 수 있습니다.
+- Section을 구분하여 switch문을 사용해서 섹션별로 tableView를 달리 보여줄 수도 있습니다.
+- 방법은 워낙 많으니 택1하면 될듯..?
 
 ### stackView의 장점과 단점에 대해서 설명하시오.
 
