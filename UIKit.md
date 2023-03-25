@@ -286,7 +286,7 @@
 1. UIView에서는 내부에서 setNeedDisplay를 호출하는 경우가 있습니다.
 2. 예를들어 layoutSubview가 호출 될 때, 자동으로 setNeedsDisplay가 호출되어 view를 다시 그릴 것을 요청합니다.
 
-> ### 💁🏻‍♂️ n-7 : 하나의 View Controller 코드에서 여러 TableView Controller 역할을 해야 할 경우 어떻게 구분해서 구현해야 하는지 설명하시오.
+> ### 💁🏻‍♂️ n-7 : 하나의 View Controller 코드에서 여러 TableView Controller 역할을 해야 할 경우 어떻게 구분하는게 좋을까요?
 
 - tableView에 tag를 달아 switch문을 사용해서 tag번호 별 데이터소스를 달리 사용할 수 있습니다.
 - ViewController에 childController을 여러개 만들어 TableView를 하나씩 맡아 관리할 수 있습니다.
